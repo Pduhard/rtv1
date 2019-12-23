@@ -6,7 +6,7 @@
 /*   By: pduhard- <marvin@le-101.fr>                +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/12/21 22:42:45 by pduhard-     #+#   ##    ##    #+#       */
-/*   Updated: 2019/12/23 07:54:27 by pduhard-    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/12/23 04:59:11 by pduhard-    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -30,7 +30,7 @@ int		ray_intersect(t_3vecf orig, t_3vecf dir, float *dist, t_sphere *sphere)
 	d2 = dot_product_3vecf(l, l) - tca * tca;
 	if (d2 > radius_2)
 		return (0);
-	thc = sqrtf(radius_2 - d2);
+	thc = sqrt(radius_2 - d2);
 	t0 = tca - thc; 
 	t1 = tca + thc; 
 	//printf("t0 %f t1 %f\n", t0, t1);
@@ -328,8 +328,6 @@ int		anti_aliasing(int i, int j, float img_aspect_ratio, float scale, t_3vecf or
 	return ((r << 16) | (g << 8) | b);
 }
 
-!!!!!!!!!!!!!!!! TRY THIS !!!!!!!!!!!!!
-//https://www.gabrielgambetta.com/computer-graphics-from-scratch/light.htmlhttps://www.gabrielgambetta.com/computer-graphics-from-scratch/light.htmlhttps://www.gabrielgambetta.com/computer-graphics-from-scratch/light.htmlhttps://www.gabrielgambetta.com/computer-graphics-from-scratch/light.htmlhttps://www.gabrielgambetta.com/computer-graphics-from-scratch/light.htmlhttps://www.gabrielgambetta.com/computer-graphics-from-scratch/light.htmlhttps://www.gabrielgambetta.com/computer-graphics-from-scratch/light.html
 void	render(t_data *data)
 {
 	float	scale;
@@ -340,13 +338,11 @@ void	render(t_data *data)
 
 	i = 0;
 	print_mat(data->camera_to_world.val);
-	data->fov = 80;
 	scale = tan(degree_to_radian(data->fov * 0.5));
 	img_aspect_ratio = (float)WIN_WIDTH / (float)WIN_HEIGHT;
-	orig = assign_3vecf(0, 0, -1);
-	//mult_vec_matrix(assign_3vecf(0, 0, 0), data->camera_to_world, &orig);
-//	printf("scale : %f\nimg_aspect_ratio : %f\norig vec:\n", scale, img_aspect_ratio);
-//	print_vec(orig.val);
+	mult_vec_matrix(assign_3vecf(0, 0, 0), data->camera_to_world, &orig);
+	printf("scale : %f\nimg_aspect_ratio : %f\norig vec:\n", scale, img_aspect_ratio);
+	print_vec(orig.val);
 	while (i < WIN_HEIGHT * 4)
 	{
 		j = 0;

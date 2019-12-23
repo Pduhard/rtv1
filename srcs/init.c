@@ -6,7 +6,7 @@
 /*   By: pduhard- <marvin@le-101.fr>                +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/12/21 22:19:28 by pduhard-     #+#   ##    ##    #+#       */
-/*   Updated: 2019/12/22 08:21:58 by pduhard-    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/12/23 04:34:37 by pduhard-    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -29,47 +29,52 @@ static t_mlx	*init_mlx(void)
 	return (mlx);
 }
 
-t_data	*init_data(void)
+t_data	*init_data(char *file_name)
 {
 	t_data	*data;
-	t_sphere	*param;
+	//t_sphere	*param;
 
+	(void)file_name;
 	if (!(data = (t_data *)malloc(sizeof(t_data))))
 		return (NULL);
-	if (!(data->objs = malloc(sizeof(t_obj))))
-	{
-		free(data);
-		return (NULL);
-	}
+	ft_bzero(data, sizeof(t_data));
+	if (!(parse_rt_conf(file_name, data)))
+		return (NULL); //free all
 	if (!(data->mlx = init_mlx()))
 	{
 		free(data->objs);
 		free(data);
 		return (NULL);	
 	}
-	if (!(data->objs->obj_param = malloc(sizeof(t_sphere))))
+	/*if (!(data->objs->obj_param = malloc(sizeof(t_sphere))))
+	{
+		free(data->objs);
+		free(data);
+		return (NULL);
+	}*/
+/*	if (!(data->lights = malloc(sizeof(t_light))))
 	{
 		free(data->objs);
 		free(data);
 		return (NULL);
 	}
-	if (!(data->lights = malloc(sizeof(t_light))))
-	{
-		free(data->objs);
-		free(data);
-		return (NULL);
-	}
-	data->lights->intensity = assign_3vecf(2,2,2);
-	data->lights->position = assign_3vecf(4,3, -17);
-	param = (t_sphere *)data->objs->obj_param;
+*///	data->lights->intensity = assign_3vecf(2,2,2);
+//	data->lights->position = assign_3vecf(-4,-8, -17);
+/*	param = (t_sphere *)data->objs->obj_param;
 	param->x = -4;
 	param->y = -8;
-	param->z = 8;
+	param->z = 0;
 	param->radius = 4;
-	data->objs->color = 0xff0000;
+	param = (t_sphere *)data->objs->next->obj_param;
+	param->x = -4;
+	param->y = -16;
+	param->z = 0;
+	param->radius = 4;
+*/	//data->objs->color = 0xff0000;
+	//data->objs->next->color = 0x0000ff;
 	init_camera_to_world_matrix(data->camera_to_world.val);
 	init_light_to_world_matrix(data->lights->l_to_world.val);
-	data->lights->color = assign_3vecf(1, 1, 1);
+	//data->lights->color = assign_3vecf(1, 1, 1);
 	data->fov = 51.12;
 	return (data);
 }

@@ -6,7 +6,7 @@
 /*   By: kgrosjea <kgrosjea@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/10/02 15:26:54 by pduhard-     #+#   ##    ##    #+#       */
-/*   Updated: 2019/12/19 19:02:13 by pduhard-    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/12/23 02:05:49 by pduhard-    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -46,6 +46,7 @@ int					ft_tolower(int c);
 int					ft_toupper(int c);
 int					ft_atoi(const char *str);
 long long			ft_atoll(const char *str);
+long double			ft_atold(const char *str);
 char				*ft_strcpy(char *dest, const char *src);
 char				*ft_strncpy(char *dst, const char *src, size_t len);
 char				*ft_strcat(char *s1, const char *s2);

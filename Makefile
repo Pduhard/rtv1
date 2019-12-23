@@ -6,7 +6,7 @@
 #    By: pduhard- <marvin@le-101.fr>                +:+   +:    +:    +:+      #
 #                                                  #+#   #+    #+    #+#       #
 #    Created: 2018/11/13 00:29:26 by pduhard-     #+#   ##    ##    #+#        #
-#    Updated: 2019/12/21 23:03:28 by pduhard-    ###    #+. /#+    ###.fr      #
+#    Updated: 2019/12/23 00:41:42 by pduhard-    ###    #+. /#+    ###.fr      #
 #                                                          /                   #
 #                                                         /                    #
 # **************************************************************************** #
@@ -34,6 +34,7 @@ SRC			=	main.c			\
 				vector.c		\
 				render.c		\
 				angles_utils.c	\
+				conf.c			\
 
 BIN			=	$(SRC:.c=.o)
 

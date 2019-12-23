@@ -6,7 +6,7 @@
 #    By: pduhard- <marvin@le-101.fr>                +:+   +:    +:    +:+      #
 #                                                  #+#   #+    #+    #+#       #
 #    Created: 2018/10/27 02:35:18 by pduhard-     #+#   ##    ##    #+#        #
-#    Updated: 2019/12/19 19:28:59 by pduhard-    ###    #+. /#+    ###.fr      #
+#    Updated: 2019/12/23 02:05:32 by pduhard-    ###    #+. /#+    ###.fr      #
 #                                                          /                   #
 #                                                         /                    #
 # **************************************************************************** #
@@ -34,6 +34,7 @@ SRC			=	ft_putchar.c		\
 				ft_toupper.c		\
 				ft_atoi.c			\
 				ft_atoll.c			\
+				ft_atold.c			\
 				ft_strcpy.c			\
 				ft_strncpy.c		\
 				ft_strcat.c			\

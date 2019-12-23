@@ -6,7 +6,7 @@
 /*   By: pduhard- <marvin@le-101.fr>                +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/12/21 21:06:00 by pduhard-     #+#   ##    ##    #+#       */
-/*   Updated: 2019/12/22 07:17:47 by pduhard-    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/12/23 04:17:20 by pduhard-    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -18,7 +18,7 @@
 # include "../minilibx_macos/mlx.h"
 # include <math.h>
 # include <pthread.h>
-
+# include <fcntl.h>
 # define WIN_WIDTH	640
 # define WIN_HEIGHT	480
 
@@ -59,37 +59,54 @@ typedef struct	s_sphere
 	float		y;
 	float		z;
 	float		radius;
+	t_3vecf		origin;
 }				t_sphere;
 
 typedef struct	s_obj
 {
 	e_obj_type	obj_type;
 	void		*obj_param;
-	int			color;
+	t_3vecf		color;
+//	int			color;
+	struct s_obj	*next;
 }				t_obj;
 
 typedef struct	s_light
 {
 	t_3vecf		intensity;
 	t_3vecf		position;
+	t_3vecf		origin;
 	t_3vecf		color;
 	t_44matf	l_to_world;
 	t_3vecf		dir;
+	struct s_light	*next;
 }				t_light;
+
+typedef struct	s_cam
+{
+	float		fov;
+	t_44matf	camera_to_world;
+	t_3vecf		origin;
+	t_3vecf		rotation;
+}				t_cam;
 
 typedef struct	s_data
 {
 	t_mlx		*mlx;
+	t_cam		*camera;
 	t_obj		*objs;
 	t_light		*lights;
 	float		fov;
 	t_44matf	camera_to_world;
+	char		*scene_name;
 }				t_data;
 
-t_data	*init_data(void);
+t_data	*init_data(char *file_name);
 void	init_camera_to_world_matrix(float mat[4][4]);
 void	init_light_to_world_matrix(float mat[4][4]);
 void	render(t_data *data);
+
+int		parse_rt_conf(char *file_name, t_data *data);
 
 t_3vecf	assign_3vecf(float x, float y, float z);
 void	normalize_3vecf(t_3vecf *vec);
