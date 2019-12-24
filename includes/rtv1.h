@@ -6,7 +6,7 @@
 /*   By: pduhard- <marvin@le-101.fr>                +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/12/21 21:06:00 by pduhard-     #+#   ##    ##    #+#       */
-/*   Updated: 2019/12/23 04:17:20 by pduhard-    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/12/24 06:00:54 by pduhard-    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -19,13 +19,15 @@
 # include <math.h>
 # include <pthread.h>
 # include <fcntl.h>
-# define WIN_WIDTH	640
-# define WIN_HEIGHT	480
+# include <float.h>
+# define WIN_WIDTH	600
+# define WIN_HEIGHT	600
 
 /* CST MACROS */
 # define _M_PI_180	0.01745329251
 
-typedef	enum	{OBJ_SPHERE} e_obj_type;
+typedef	enum	{OBJ_SPHERE, OBJ_PLANE} e_obj_type;
+typedef	enum	{LIGHT_POINT, LIGHT_AMBIENT, LIGHT_DIRECTIONAL} e_light_type;
 
 typedef struct	s_mlx
 {
@@ -43,6 +45,11 @@ typedef struct	s_44matf
 	float		val[4][4];
 }				t_44matf;
 
+typedef struct	s_33matf
+{
+	float		val[3][3];
+}				t_33matf;
+
 typedef struct	s_3vecf
 {
 	float		val[3];
@@ -55,12 +62,15 @@ typedef struct	s_2vecf
 
 typedef struct	s_sphere
 {
-	float		x;
-	float		y;
-	float		z;
-	float		radius;
 	t_3vecf		origin;
+	float		radius;
 }				t_sphere;
+
+typedef struct	s_plane
+{
+	t_3vecf		origin;
+	t_3vecf		normal;
+}				t_plane;
 
 typedef struct	s_obj
 {
@@ -73,6 +83,7 @@ typedef struct	s_obj
 
 typedef struct	s_light
 {
+	e_light_type	light_type;
 	t_3vecf		intensity;
 	t_3vecf		position;
 	t_3vecf		origin;
@@ -104,15 +115,21 @@ typedef struct	s_data
 t_data	*init_data(char *file_name);
 void	init_camera_to_world_matrix(float mat[4][4]);
 void	init_light_to_world_matrix(float mat[4][4]);
+t_33matf	init_rotation_matrix_x(float theta);
+t_33matf	init_rotation_matrix_y(float theta);
+t_33matf	init_rotation_matrix_z(float theta);
+
 void	render(t_data *data);
 
 int		parse_rt_conf(char *file_name, t_data *data);
 
 t_3vecf	assign_3vecf(float x, float y, float z);
 void	normalize_3vecf(t_3vecf *vec);
+float	get_length_3vecf(t_3vecf vec);
 t_3vecf	sub_3vecf(t_3vecf a, t_3vecf b);
 float	dot_product_3vecf(t_3vecf a, t_3vecf b);
 
+t_3vecf	mult_3vecf_33matf(t_3vecf vect, t_33matf mat);
 void	mult_vec_matrix(t_3vecf, t_44matf mat, t_3vecf *dst);
 void	mult_dir_matrix(t_3vecf, t_44matf mat, t_3vecf *dst);
 

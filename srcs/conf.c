@@ -6,7 +6,7 @@
 /*   By: pduhard- <marvin@le-101.fr>                +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/12/23 01:19:51 by pduhard-     #+#   ##    ##    #+#       */
-/*   Updated: 2019/12/23 04:17:36 by pduhard-    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/12/24 05:10:51 by pduhard-    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -152,6 +152,49 @@ int		parse_sphere(char *line, t_data *data)
 	return (1);
 }
 
+int		parse_plane(char *line, t_data *data)
+{
+	int			i;
+	t_obj		*plane;
+	t_plane		*plane_param;
+
+	if (!(plane = malloc(sizeof(t_obj))) || !(plane_param = malloc(sizeof(t_plane))))
+		return (0);
+	i = 5;
+	while (ft_isspace(line[i]))
+		++i;
+	if (line[i] != '(' || (i = parse_3vecf(line, i, &plane_param->origin)) == -1)
+	{
+		ft_printf("Syntax error: plane syntax: plane(origin)(normal)(color)\n");
+		return (0);
+	}
+	while (ft_isspace(line[i]))
+		++i;
+	if (line[i] != '(' || (i = parse_3vecf(line, i, &plane_param->normal)) == -1)
+	{
+		ft_printf("Syntax error: plane syntax: plane(origin)(normal)(color)\n");
+		return (0);
+	}
+	while (ft_isspace(line[i]))
+		++i;
+	if (line[i] != '(' || (i = parse_3vecf(line, i, &plane->color)) == -1)
+	{
+		ft_printf("Syntax error: plane syntax: plane(origin)(normal)(color)\n");
+		return (0);
+	}
+	printf("plane : %f %f %f && %f %f %f && %f %f %f\n", plane_param->origin.val[0], plane_param->origin.val[1], plane_param->origin.val[2], plane_param->normal.val[0], plane_param->normal.val[1], plane_param->normal.val[2] , plane->color.val[0], plane->color.val[1], plane->color.val[2]);
+	plane->obj_param = plane_param;
+	plane->obj_type = OBJ_PLANE;
+	if (data->objs)
+	{
+		plane->next = data->objs;
+	}
+	else
+		plane->next = NULL;
+	data->objs = plane;
+	return (1);
+}
+
 int		parse_light(char *line, t_data *data)
 {
 	int			i;
@@ -162,23 +205,58 @@ int		parse_light(char *line, t_data *data)
 	i = 5;
 	while (ft_isspace(line[i]))
 		++i;
+	if (line[i++] != '(')
+	{
+		ft_printf("Syntax error: light syntax: light(light_type)(origin)(intensity)(color)\n");
+		return (0);
+	}
+	printf("%s, \n", &(line[i]));
+	if (!ft_strncmp(&(line[i]), "point", 5))
+	{
+		light->light_type = LIGHT_POINT;
+		i += 5;
+	}
+	else if (!ft_strncmp(&(line[i]), "ambient", 7))
+	{
+		light->light_type = LIGHT_AMBIENT;
+		i += 7;
+	}
+	else if (!ft_strncmp(&(line[i]), "directional", 11))
+	{
+		light->light_type = LIGHT_DIRECTIONAL;	
+		i+=11;
+	}
+	else
+	{
+		ft_printf("Syntax error: light syntax: light(light_type)(origin)(intensity)(color)\n");
+		return (0);
+	}
+	while (ft_isspace(line[i]))
+		++i;
+	if (line[i++] != ')')
+	{
+		ft_printf("Syntax error: light syntax: light(light_type)(origin)(intensity)(color)\n");
+		return (0);
+	}
+	while (ft_isspace(line[i]))
+		++i;
 	if (line[i] != '(' || (i = parse_3vecf(line, i, &light->origin)) == -1)
 	{
-		ft_printf("Syntax error: light syntax: sphere(origin)(intensity)(color)\n");
+		ft_printf("Syntax error: light syntax: light(light_type)(origin)(intensity)(color)\n");
 		return (0);
 	}
 	while (ft_isspace(line[i]))
 		++i;
 	if (line[i] != '(' || (i = parse_3vecf(line, i, &light->intensity)) == -1)
 	{
-		ft_printf("Syntax error: light syntax: sphere(origin)(intensity)(color)\n");
+		ft_printf("Syntax error: light syntax: light(light_type)(origin)(intensity)(color)\n");
 		return (0);
 	}
 	while (ft_isspace(line[i]))
 		++i;
 	if (line[i] != '(' || (i = parse_3vecf(line, i, &light->color)) == -1)
 	{
-		ft_printf("Syntax error: light syntax: sphere(origin)(intensity)(color)\n");
+		ft_printf("Syntax error: light syntax: light(light_type)(origin)(intensity)(color)\n");
 		return (0);
 	}
 	printf("light : %f %f %f && %f %f %f && %f %f %f\n", light->origin.val[0], light->origin.val[1], light->origin.val[2], light->intensity.val[0], light->intensity.val[1], light->intensity.val[2], light->color.val[0], light->color.val[1], light->color.val[2]);
@@ -200,10 +278,12 @@ int		parse_rt_line(char *line, t_data *data)
 		return (parse_scene_name(line, data));
 	else if (!ft_strncmp(line, "camera", 6))
 		return (parse_camera(line, data));
-	else if (!ft_strncmp(line, "sphere", 6))
-		return (parse_sphere(line, data));
 	else if (!ft_strncmp(line, "light", 5))
 		return (parse_light(line, data));
+	else if (!ft_strncmp(line, "sphere", 6))
+		return (parse_sphere(line, data));
+	else if (!ft_strncmp(line, "plane", 5))
+		return (parse_plane(line, data));
 	else
 	{
 		ft_printf("Unrecognized element: \n%s\n", line);
