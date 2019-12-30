@@ -6,7 +6,7 @@
 #    By: pduhard- <marvin@le-101.fr>                +:+   +:    +:    +:+      #
 #                                                  #+#   #+    #+    #+#       #
 #    Created: 2018/11/13 00:29:26 by pduhard-     #+#   ##    ##    #+#        #
-#    Updated: 2019/12/23 00:41:42 by pduhard-    ###    #+. /#+    ###.fr      #
+#    Updated: 2019/12/30 21:00:16 by pduhard-    ###    #+. /#+    ###.fr      #
 #                                                          /                   #
 #                                                         /                    #
 # **************************************************************************** #
@@ -35,6 +35,10 @@ SRC			=	main.c			\
 				render.c		\
 				angles_utils.c	\
 				conf.c			\
+				sphere.c		\
+				plane.c			\
+				loop.c			\
+				key_hook.c		\
 
 BIN			=	$(SRC:.c=.o)
 

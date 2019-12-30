@@ -6,7 +6,7 @@
 /*   By: pduhard- <marvin@le-101.fr>                +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/12/21 22:19:28 by pduhard-     #+#   ##    ##    #+#       */
-/*   Updated: 2019/12/23 04:34:37 by pduhard-    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/12/30 22:01:09 by pduhard-    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -72,9 +72,13 @@ t_data	*init_data(char *file_name)
 	param->radius = 4;
 */	//data->objs->color = 0xff0000;
 	//data->objs->next->color = 0x0000ff;
-	init_camera_to_world_matrix(data->camera_to_world.val);
-	init_light_to_world_matrix(data->lights->l_to_world.val);
+//	init_camera_to_world_matrix(data->camera_to_world.val);
+//	init_light_to_world_matrix(data->lights->l_to_world.val);
+	data->rot_mat[0] = init_rotation_matrix_x(degree_to_radian(data->camera->rotation.val[0]));
+	data->rot_mat[1] = init_rotation_matrix_y(degree_to_radian(data->camera->rotation.val[1]));
+	data->rot_mat[2] = init_rotation_matrix_z(degree_to_radian(data->camera->rotation.val[2]));
 	//data->lights->color = assign_3vecf(1, 1, 1);
-	data->fov = 51.12;
+	//data->fov = 51.12;
+	data->hooks = 0;
 	return (data);
 }

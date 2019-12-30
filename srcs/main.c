@@ -6,7 +6,7 @@
 /*   By: pduhard- <marvin@le-101.fr>                +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/12/21 21:07:09 by pduhard-     #+#   ##    ##    #+#       */
-/*   Updated: 2019/12/22 23:38:53 by pduhard-    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/12/30 20:59:59 by pduhard-    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -30,6 +30,10 @@ int		main(int argc, char **argv)
 	}
 	render(data);
 	//data->fractal_fct(data);
+	mlx_hook(data->mlx->win_ptr, 2, 303, &key_press, (void *)data);
+	mlx_hook(data->mlx->win_ptr, 3, 303, &key_release, (void *)data);
+	mlx_loop_hook(data->mlx->mlx_ptr, &print_loop_image, (void *)data);
+
 	mlx_put_image_to_window(data->mlx->mlx_ptr,
 			data->mlx->win_ptr, data->mlx->img_ptr, 0, 0);
 	mlx_loop(data->mlx->mlx_ptr);

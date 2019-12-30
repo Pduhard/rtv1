@@ -6,7 +6,7 @@
 /*   By: pduhard- <marvin@le-101.fr>                +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/12/21 21:06:00 by pduhard-     #+#   ##    ##    #+#       */
-/*   Updated: 2019/12/24 06:00:54 by pduhard-    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/12/30 22:01:20 by pduhard-    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -25,6 +25,14 @@
 
 /* CST MACROS */
 # define _M_PI_180	0.01745329251
+
+/* HOOKS MACRO */
+# define A_KEY	1
+# define D_KEY	(1 << 1)
+# define W_KEY	(1 << 2)
+# define S_KEY	(1 << 3)
+# define F_KEY	(1 << 4)
+# define G_KEY	(1 << 5)
 
 typedef	enum	{OBJ_SPHERE, OBJ_PLANE} e_obj_type;
 typedef	enum	{LIGHT_POINT, LIGHT_AMBIENT, LIGHT_DIRECTIONAL} e_light_type;
@@ -72,10 +80,18 @@ typedef struct	s_plane
 	t_3vecf		normal;
 }				t_plane;
 
+typedef struct	s_cone
+{
+	t_3vecf		origin;
+	t_3vecf		normal;
+}				t_cone;
+
 typedef struct	s_obj
 {
 	e_obj_type	obj_type;
 	void		*obj_param;
+	int			(*ray_intersect)(t_3vecf, t_3vecf, struct s_obj *, float *, float, float);
+	t_3vecf		(*get_normal_inter)(t_3vecf, struct s_obj *);
 	t_3vecf		color;
 //	int			color;
 	struct s_obj	*next;
@@ -110,6 +126,8 @@ typedef struct	s_data
 	float		fov;
 	t_44matf	camera_to_world;
 	char		*scene_name;
+	int			hooks;
+	t_33matf	rot_mat[3];
 }				t_data;
 
 t_data	*init_data(char *file_name);
@@ -122,6 +140,11 @@ t_33matf	init_rotation_matrix_z(float theta);
 void	render(t_data *data);
 
 int		parse_rt_conf(char *file_name, t_data *data);
+int		parse_3vecf(char *line, int i, t_3vecf *vec);
+int		parse_float(char *line, int i, float *val);
+
+int		parse_sphere(char *line, t_data *data);
+int		parse_plane(char *line, t_data *data);
 
 t_3vecf	assign_3vecf(float x, float y, float z);
 void	normalize_3vecf(t_3vecf *vec);
@@ -134,5 +157,9 @@ void	mult_vec_matrix(t_3vecf, t_44matf mat, t_3vecf *dst);
 void	mult_dir_matrix(t_3vecf, t_44matf mat, t_3vecf *dst);
 
 float	degree_to_radian(float degree);
+
+int		key_press(int keycode, void *param);
+int		key_release(int keycode, void *param);
+int		print_loop_image(void *param);
 
 #endif

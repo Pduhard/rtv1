@@ -6,7 +6,7 @@
 /*   By: pduhard- <marvin@le-101.fr>                +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/12/23 01:19:51 by pduhard-     #+#   ##    ##    #+#       */
-/*   Updated: 2019/12/24 05:10:51 by pduhard-    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/12/30 17:08:05 by pduhard-    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -108,7 +108,7 @@ int		parse_float(char *line, int i, float *val)
 		return (-1);
 	return (i + 1);
 }
-
+/*
 int		parse_sphere(char *line, t_data *data)
 {
 	int			i;
@@ -151,7 +151,8 @@ int		parse_sphere(char *line, t_data *data)
 	data->objs = sphere;
 	return (1);
 }
-
+*/
+/*
 int		parse_plane(char *line, t_data *data)
 {
 	int			i;
@@ -194,7 +195,7 @@ int		parse_plane(char *line, t_data *data)
 	data->objs = plane;
 	return (1);
 }
-
+*/
 int		parse_light(char *line, t_data *data)
 {
 	int			i;

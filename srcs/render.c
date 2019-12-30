@@ -6,7 +6,7 @@
 /*   By: pduhard- <marvin@le-101.fr>                +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/12/21 22:42:45 by pduhard-     #+#   ##    ##    #+#       */
-/*   Updated: 2019/12/24 06:08:01 by pduhard-    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/12/30 22:01:38 by pduhard-    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -32,7 +32,7 @@ t_3vecf	window_to_view(int x, int y)
 	vec.val[2] = 1;
 	return (vec);
 }
-
+/*
 int	ray_intersect_sphere(t_3vecf orig, t_3vecf dir, t_obj *sphere, float *dist, float min_dist, float max_dist)
 {
 	t_3vecf	dist_vec;
@@ -88,7 +88,7 @@ int	ray_intersect_plane(t_3vecf orig, t_3vecf dir, t_obj *plane, float *dist, fl
 	}
 	return (0);
 }
-
+*/
 t_obj	*ray_first_intersect(t_3vecf orig, t_3vecf dir, float min_dist, float max_dist, float *closest_dist, t_obj *objs)
 {
 	t_obj	*closest_obj;
@@ -98,10 +98,10 @@ t_obj	*ray_first_intersect(t_3vecf orig, t_3vecf dir, float min_dist, float max_
 	while (objs)
 	{
 		//objs->ray_interset() could be smart
-		if (objs->obj_type == OBJ_SPHERE && ray_intersect_sphere(orig, dir, objs, closest_dist, min_dist, max_dist))
+		if (objs->ray_intersect(orig, dir, objs, closest_dist, min_dist, max_dist))
 			closest_obj = objs;
-		else if (objs->obj_type == OBJ_PLANE && ray_intersect_plane(orig, dir, objs, closest_dist, min_dist, max_dist))
-			closest_obj = objs;
+		///else if (objs->obj_type == OBJ_PLANE && ray_intersect_plane(orig, dir, objs, closest_dist, min_dist, max_dist))
+		//	closest_obj = objs;
 /*		if (hit_point.val[0] < *closest_dist && min_dist < hit_point.val[0] && hit_point.val[0] < max_dist)
 		{
 			*closest_dist = hit_point.val[0];
@@ -175,18 +175,13 @@ t_3vecf	ray_trace(t_3vecf orig, t_3vecf dir, float min_dist, float max_dist, t_d
 	t_3vecf		inter_point;
 	t_3vecf		normal_inter;
 	t_3vecf		lighted_color;
-	t_sphere	*sphere_param;
 	float		light_fact;
 	float		normal_length;
 
-	sphere_param = closest_obj->obj_param;
 	inter_point.val[0] = orig.val[0] + dir.val[0] * closest_dist;
 	inter_point.val[1] = orig.val[1] + dir.val[1] * closest_dist;
 	inter_point.val[2] = orig.val[2] + dir.val[2] * closest_dist;
-	if (closest_obj->obj_type == OBJ_PLANE)
-		normal_inter = ((t_plane *)sphere_param)->normal;
-	else
-		normal_inter = sub_3vecf(inter_point, sphere_param->origin);
+	normal_inter = closest_obj->get_normal_inter(inter_point, closest_obj);
 	normal_length = get_length_3vecf(normal_inter);
 	normal_inter.val[0] /= normal_length;
 	normal_inter.val[1] /= normal_length;
@@ -225,21 +220,21 @@ void	render(t_data *data)
 	t_3vecf	orig;
 	t_3vecf	dir;
 	t_3vecf	color;
-	t_33matf	rot_mat[3];
+//	t_33matf	rot_mat[3];
 	int		i;
 	int		j;
 	
 	i = -WIN_WIDTH / 2;
 	orig = data->camera->origin;
-	rot_mat[0] = init_rotation_matrix_x(degree_to_radian(data->camera->rotation.val[0]));
-	rot_mat[1] = init_rotation_matrix_y(degree_to_radian(data->camera->rotation.val[1]));
-	rot_mat[2] = init_rotation_matrix_z(degree_to_radian(data->camera->rotation.val[2]));
+	//rot_mat[0] = init_rotation_matrix_x(degree_to_radian(data->camera->rotation.val[0]));
+	//rot_mat[1] = init_rotation_matrix_y(degree_to_radian(data->camera->rotation.val[1]));
+	//rot_mat[2] = init_rotation_matrix_z(degree_to_radian(data->camera->rotation.val[2]));
 	while (i < WIN_WIDTH / 2)
 	{
 		j = -WIN_HEIGHT / 2;
 		while (j < WIN_HEIGHT / 2)
 		{
-			dir = mult_3vecf_33matf(mult_3vecf_33matf(window_to_view(i, j), rot_mat[1]), rot_mat[2]);
+			dir = mult_3vecf_33matf(mult_3vecf_33matf(window_to_view(i, j), data->rot_mat[1]), data->rot_mat[2]);
 			color = ray_trace(orig, dir, 1, FLT_MAX, data);
 		//	color = (i + WIN_WIDTH / 2 ) * 256 + j + WIN_HEIGHT / 2;
 			ray_put_pixel(i, j, data->mlx->img_str, color);
@@ -247,5 +242,5 @@ void	render(t_data *data)
 		}
 		++i;
 	}
-	printf("end");
+	//printf("end");
 }
