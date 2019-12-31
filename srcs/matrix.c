@@ -6,7 +6,7 @@
 /*   By: pduhard- <marvin@le-101.fr>                +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/12/21 22:36:28 by pduhard-     #+#   ##    ##    #+#       */
-/*   Updated: 2019/12/24 04:25:20 by pduhard-    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/12/31 13:24:25 by pduhard-    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -39,6 +39,20 @@ t_3vecf	mult_3vecf_33matf(t_3vecf vect, t_33matf mat)
 	mult.val[2] = vect.val[0] * mat.val[2][0] + vect.val[1] * mat.val[2][1] + vect.val[2] * mat.val[2][2];
 	return (mult);
 }
+
+t_33matf	mult_33matf_33matf(t_33matf a, t_33matf b)
+{
+	t_33matf	mult;
+	int		i = -1;
+	int		j;
+	while (++i < 3 && (j = -1))
+		while (++j < 3)
+			mult.val[i][j] = a.val[i][0] * b.val[0][i] + a.val[i][1] * b.val[1][i] + a.val[i][2] * b.val[2][i];
+//	mult.val[1] = vect.val[0] * mat.val[1][0] + vect.val[1] * mat.val[1][1] + vect.val[2] * mat.val[1][2];
+//	mult.val[2] = vect.val[0] * mat.val[2][0] + vect.val[1] * mat.val[2][1] + vect.val[2] * mat.val[2][2];
+	return (mult);
+}
+
 /*
 void	mult_dir_matrix(t_3vecf vect, t_44matf mat, t_3vecf *dst)
 { 

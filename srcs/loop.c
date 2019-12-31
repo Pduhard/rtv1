@@ -6,7 +6,7 @@
 /*   By: pduhard- <marvin@le-101.fr>                +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/12/30 20:56:52 by pduhard-     #+#   ##    ##    #+#       */
-/*   Updated: 2019/12/30 22:56:40 by pduhard-    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/12/31 12:47:17 by pduhard-    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -39,24 +39,31 @@ void	loop_manage_render(t_data *data)
 */
 void	loop_manage_cam(t_data *data)
 {
-	if (data->hooks & F_KEY)
-	{
-		data->camera->rotation.val[1] += 2;
-		data->rot_mat[1] = init_rotation_matrix_y(degree_to_radian(data->camera->rotation.val[1]));
-	}
-	if (data->hooks & G_KEY)
-	{
-		data->camera->rotation.val[1] -= 2;
-		data->rot_mat[1] = init_rotation_matrix_y(degree_to_radian(data->camera->rotation.val[1]));
-	}
+//	if (data->hooks & F_KEY)
+//	{
+		float	add_y = 4 * data->mouse_x;
+		if (add_y > 1 || add_y < -1)
+		{
+			data->camera->rotation.val[1] += add_y;
+		//4 * data->mouse_x;
+			data->rot_mat[1] = init_rotation_matrix_y(degree_to_radian(data->camera->rotation.val[1]));
+		}
+		float	add_x = -4 * data->mouse_y;
+		if (add_x > 1 || add_x < -1)
+		{
+			data->camera->rotation.val[0] += add_x;
+		//4 * data->mouse_x;
+			data->rot_mat[0] = init_rotation_matrix_x(degree_to_radian(data->camera->rotation.val[0]));
+		}
+//	if (data->hooks & G_KEY)
+//	{
+		//data->camera->rotation.val[1] -= 2;
+		//data->rot_mat[1] = init_rotation_matrix_y(degree_to_radian(data->camera->rotation.val[1]));
+//	}
 	if (data->hooks & (W_KEY | S_KEY))
 	{
 		t_3vecf dir = mult_3vecf_33matf(assign_3vecf(0, 0, 0.2), data->rot_mat[1]);
 //		printf("%f %f %f\n", dir.val[0], dir.val[1], dir.val[2]);
-		if (data->hooks & A_KEY)
-			data->camera->origin.val[0] -= 0.2;
-		if (data->hooks & D_KEY)
-			data->camera->origin.val[0] += 0.2;
 		if (data->hooks & W_KEY)
 		{
 			data->camera->origin.val[0] += dir.val[0];

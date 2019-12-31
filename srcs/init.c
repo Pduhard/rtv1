@@ -6,7 +6,7 @@
 /*   By: pduhard- <marvin@le-101.fr>                +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/12/21 22:19:28 by pduhard-     #+#   ##    ##    #+#       */
-/*   Updated: 2019/12/30 22:01:09 by pduhard-    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/12/31 12:23:29 by pduhard-    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -80,5 +80,7 @@ t_data	*init_data(char *file_name)
 	//data->lights->color = assign_3vecf(1, 1, 1);
 	//data->fov = 51.12;
 	data->hooks = 0;
+	data->mouse_x = 0;
+	data->mouse_y = 0;
 	return (data);
 }

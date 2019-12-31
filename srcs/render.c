@@ -6,7 +6,7 @@
 /*   By: pduhard- <marvin@le-101.fr>                +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/12/21 22:42:45 by pduhard-     #+#   ##    ##    #+#       */
-/*   Updated: 2019/12/30 22:01:38 by pduhard-    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/12/31 14:24:07 by pduhard-    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -219,6 +219,7 @@ void	render(t_data *data)
 {
 	t_3vecf	orig;
 	t_3vecf	dir;
+//	t_3vecf	dir_t;
 	t_3vecf	color;
 //	t_33matf	rot_mat[3];
 	int		i;
@@ -226,6 +227,8 @@ void	render(t_data *data)
 	
 	i = -WIN_WIDTH / 2;
 	orig = data->camera->origin;
+	//dir = mult_3vecf_33matf(window_to_view(0, 0), data->rot_mat[1]);
+	//printf("%f %f %f\n", dir.val[0], dir.val[1], dir.val[2]);
 	//rot_mat[0] = init_rotation_matrix_x(degree_to_radian(data->camera->rotation.val[0]));
 	//rot_mat[1] = init_rotation_matrix_y(degree_to_radian(data->camera->rotation.val[1]));
 	//rot_mat[2] = init_rotation_matrix_z(degree_to_radian(data->camera->rotation.val[2]));
@@ -234,7 +237,13 @@ void	render(t_data *data)
 		j = -WIN_HEIGHT / 2;
 		while (j < WIN_HEIGHT / 2)
 		{
-			dir = mult_3vecf_33matf(mult_3vecf_33matf(window_to_view(i, j), data->rot_mat[1]), data->rot_mat[2]);
+			dir = /*mult_3vecf_33matf(*/mult_3vecf_33matf(mult_3vecf_33matf(window_to_view(i, j), data->rot_mat[1]), data->rot_mat[0]);//, data->rot_mat[2]);
+			/*dir = mult_3vecf_33matf(window_to_view(i, j), data->rot_mat[1]);
+			dir_t = mult_3vecf_33matf(window_to_view(i, j), data->rot_mat[0]);
+			dir.val[0] = (dir.val[0] + dir_t.val[0]) / 2;
+			dir.val[1] = (dir.val[1] + dir_t.val[1]) / 2;
+			dir.val[2] = (dir.val[2] + dir_t.val[2]) / 2;
+			*///dir = mult_3vecf_33matf(window_to_view(i, j), mult_33matf_33matf(data->rot_mat[1], data->rot_mat[0]));
 			color = ray_trace(orig, dir, 1, FLT_MAX, data);
 		//	color = (i + WIN_WIDTH / 2 ) * 256 + j + WIN_HEIGHT / 2;
 			ray_put_pixel(i, j, data->mlx->img_str, color);

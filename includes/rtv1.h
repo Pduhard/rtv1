@@ -6,7 +6,7 @@
 /*   By: pduhard- <marvin@le-101.fr>                +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/12/21 21:06:00 by pduhard-     #+#   ##    ##    #+#       */
-/*   Updated: 2019/12/30 22:01:20 by pduhard-    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/12/31 13:23:04 by pduhard-    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -128,6 +128,8 @@ typedef struct	s_data
 	char		*scene_name;
 	int			hooks;
 	t_33matf	rot_mat[3];
+	float		mouse_x;
+	float		mouse_y;
 }				t_data;
 
 t_data	*init_data(char *file_name);
@@ -153,6 +155,7 @@ t_3vecf	sub_3vecf(t_3vecf a, t_3vecf b);
 float	dot_product_3vecf(t_3vecf a, t_3vecf b);
 
 t_3vecf	mult_3vecf_33matf(t_3vecf vect, t_33matf mat);
+t_33matf	mult_33matf_33matf(t_33matf a, t_33matf b);
 void	mult_vec_matrix(t_3vecf, t_44matf mat, t_3vecf *dst);
 void	mult_dir_matrix(t_3vecf, t_44matf mat, t_3vecf *dst);
 
@@ -160,6 +163,7 @@ float	degree_to_radian(float degree);
 
 int		key_press(int keycode, void *param);
 int		key_release(int keycode, void *param);
+int		moov_hook(int x, int y, void *param);
 int		print_loop_image(void *param);
 
 #endif
