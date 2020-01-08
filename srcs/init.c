@@ -6,7 +6,7 @@
 /*   By: pduhard- <marvin@le-101.fr>                +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/12/21 22:19:28 by pduhard-     #+#   ##    ##    #+#       */
-/*   Updated: 2019/12/31 12:23:29 by pduhard-    ###    #+. /#+    ###.fr     */
+/*   Updated: 2020/01/08 03:58:20 by pduhard-    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -82,5 +82,8 @@ t_data	*init_data(char *file_name)
 	data->hooks = 0;
 	data->mouse_x = 0;
 	data->mouse_y = 0;
+	data->fps = 0;
+	data->delta_time = 0;
+	data->anti_al = 1;
 	return (data);
 }

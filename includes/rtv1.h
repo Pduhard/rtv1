@@ -6,7 +6,7 @@
 /*   By: pduhard- <marvin@le-101.fr>                +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/12/21 21:06:00 by pduhard-     #+#   ##    ##    #+#       */
-/*   Updated: 2019/12/31 13:23:04 by pduhard-    ###    #+. /#+    ###.fr     */
+/*   Updated: 2020/01/08 05:23:21 by pduhard-    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -20,8 +20,12 @@
 # include <pthread.h>
 # include <fcntl.h>
 # include <float.h>
+# include <time.h>
 # define WIN_WIDTH	600
 # define WIN_HEIGHT	600
+# define NB_THREADS	8
+# define MAX_ANTI_AL	4
+# define MAX_ANTI_AL2	16
 
 /* CST MACROS */
 # define _M_PI_180	0.01745329251
@@ -34,7 +38,15 @@
 # define F_KEY	(1 << 4)
 # define G_KEY	(1 << 5)
 
-typedef	enum	{OBJ_SPHERE, OBJ_PLANE} e_obj_type;
+# define ARR_LEFT_KEY	(1 << 6)
+# define ARR_RIGHT_KEY	(1 << 7)
+# define ARR_DOWN_KEY	(1 << 8)
+# define ARR_UP_KEY		(1 << 9)
+
+# define SPACE_KEY	(1 << 10)
+# define SHIFT_KEY	(1 << 11)
+
+typedef	enum	{OBJ_SPHERE, OBJ_PLANE, OBJ_CONE} e_obj_type;
 typedef	enum	{LIGHT_POINT, LIGHT_AMBIENT, LIGHT_DIRECTIONAL} e_light_type;
 
 typedef struct	s_mlx
@@ -82,8 +94,11 @@ typedef struct	s_plane
 
 typedef struct	s_cone
 {
-	t_3vecf		origin;
-	t_3vecf		normal;
+	t_3vecf		center;
+	t_3vecf		tip;
+	float		radius;
+	//t_3vecf		origin;
+//	t_3vecf		normal;
 }				t_cone;
 
 typedef struct	s_obj
@@ -130,7 +145,17 @@ typedef struct	s_data
 	t_33matf	rot_mat[3];
 	float		mouse_x;
 	float		mouse_y;
+	int			fps;
+	clock_t		delta_time;
+	int			anti_al;
 }				t_data;
+
+typedef struct	s_thread
+{
+	t_data		*data;
+	int			start;
+	int			end;
+}				t_thread;
 
 t_data	*init_data(char *file_name);
 void	init_camera_to_world_matrix(float mat[4][4]);
@@ -147,6 +172,7 @@ int		parse_float(char *line, int i, float *val);
 
 int		parse_sphere(char *line, t_data *data);
 int		parse_plane(char *line, t_data *data);
+int		parse_cone(char *line, t_data *data);
 
 t_3vecf	assign_3vecf(float x, float y, float z);
 void	normalize_3vecf(t_3vecf *vec);

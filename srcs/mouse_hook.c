@@ -6,7 +6,7 @@
 /*   By: pduhard- <marvin@le-101.fr>                +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/12/31 12:18:36 by pduhard-     #+#   ##    ##    #+#       */
-/*   Updated: 2019/12/31 12:28:27 by pduhard-    ###    #+. /#+    ###.fr     */
+/*   Updated: 2020/01/08 01:39:27 by pduhard-    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -30,7 +30,7 @@ int		moov_hook(int x, int y, void *param)
 		y = WIN_HEIGHT;
 //	printf("%d %d\n", data->mouse_x, data->mouse_y);
 	data->mouse_x = (float)x * 2 / (float)WIN_WIDTH - 1;
-	data->mouse_y = (float)y * 2 / (float)WIN_HEIGHT - 1;
+	data->mouse_y = 0;//(float)y * 2 / (float)WIN_HEIGHT - 1;
 	printf("%d %d => %f %f\n",x, y,  data->mouse_x, data->mouse_y);
 
 	return (1);

@@ -6,7 +6,7 @@
 /*   By: pduhard- <marvin@le-101.fr>                +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/12/30 20:56:52 by pduhard-     #+#   ##    ##    #+#       */
-/*   Updated: 2019/12/31 12:47:17 by pduhard-    ###    #+. /#+    ###.fr     */
+/*   Updated: 2020/01/08 04:08:30 by pduhard-    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -41,21 +41,40 @@ void	loop_manage_cam(t_data *data)
 {
 //	if (data->hooks & F_KEY)
 //	{
-		float	add_y = 4 * data->mouse_x;
+	if (data->hooks & (ARR_LEFT_KEY | ARR_RIGHT_KEY))
+	{
+		/*float	add_y = 4 * data->mouse_x;
 		if (add_y > 1 || add_y < -1)
-		{
-			data->camera->rotation.val[1] += add_y;
+		{*/
+		if (data->hooks & ARR_LEFT_KEY)
+			data->camera->rotation.val[1] -= 3;
+		if (data->hooks & ARR_RIGHT_KEY)
+			data->camera->rotation.val[1] += 3;
 		//4 * data->mouse_x;
 			data->rot_mat[1] = init_rotation_matrix_y(degree_to_radian(data->camera->rotation.val[1]));
-		}
-		float	add_x = -4 * data->mouse_y;
+	}
+	if (data->hooks & (ARR_UP_KEY | ARR_DOWN_KEY))
+	{
+		/*float	add_y = 4 * data->mouse_x;
+		if (add_y > 1 || add_y < -1)
+		{*/
+		if (data->hooks & ARR_UP_KEY && data->camera->rotation.val[0] < 30)
+			data->camera->rotation.val[0] += 3;
+		if (data->hooks & ARR_DOWN_KEY && data->camera->rotation.val[0] > -30)
+			data->camera->rotation.val[0] -= 3;
+		//4 * data->mouse_x;
+			data->rot_mat[0] = init_rotation_matrix_x(degree_to_radian(data->camera->rotation.val[0]));
+	}
+//	t_3vecf tm = mult_3vecf_33matf(assign_3vecf(1, 0, 0), data->rot_mat[1]);
+//	printf("initial : 1, 0, 0 => after rot y: %f %f %f\n", tm.val[0], tm.val[1], tm.val[2]);
+	/*	float	add_x = -4 * data->mouse_y;
 		if (add_x > 1 || add_x < -1)
 		{
 			data->camera->rotation.val[0] += add_x;
 		//4 * data->mouse_x;
 			data->rot_mat[0] = init_rotation_matrix_x(degree_to_radian(data->camera->rotation.val[0]));
 		}
-//	if (data->hooks & G_KEY)
+*///	if (data->hooks & G_KEY)
 //	{
 		//data->camera->rotation.val[1] -= 2;
 		//data->rot_mat[1] = init_rotation_matrix_y(degree_to_radian(data->camera->rotation.val[1]));
@@ -100,6 +119,28 @@ void	loop_manage_cam(t_data *data)
 
 		//	data->camera->origin.val[0] += 0.2;
 	}
+	//	t_3vecf dir = mult_3vecf_33matf(assign_3vecf(0.2, 0, 0), data->rot_mat[1]);
+//		printf("%f %f %f\n", dir.val[0], dir.val[1], dir.val[2]);
+		if (data->hooks & SPACE_KEY)
+			data->camera->origin.val[1] -= 0.2;
+		if (data->hooks & SHIFT_KEY)
+			data->camera->origin.val[1] += 0.2;
+/*		{
+			data->camera->origin.val[0] -= dir.val[0];
+			dir.val[1];
+			data->camera->origin.val[2] -= dir.val[2];
+		}
+*/
+		//	data->camera->origin.val[0] -= 0.2;
+	/*	if (data->hooks & D_KEY)
+		{
+			data->camera->origin.val[0] += dir.val[0];
+			data->camera->origin.val[1] += dir.val[1];
+			data->camera->origin.val[2] += dir.val[2];
+		}
+*/
+		//	data->camera->origin.val[0] += 0.2;
+
 }
 /*
 void	loop_manage_rot_matrix(t_data *data)
@@ -137,6 +178,9 @@ int		print_loop_image(void *param)
 //	loop_manage_render(data);
 	loop_manage_cam(data);
 //	loop_manage_rot_matrix(data);
+	clock_t	start;
+	clock_t	end;
+	start = clock();
 	mlx_destroy_image(data->mlx->mlx_ptr, data->mlx->img_ptr);
 	data->mlx->img_ptr = mlx_new_image(data->mlx->mlx_ptr, WIN_WIDTH, WIN_HEIGHT);
 	data->mlx->img_str = (int *)mlx_get_data_addr(data->mlx->img_ptr,
@@ -147,5 +191,15 @@ int		print_loop_image(void *param)
 	render(data);
 	mlx_put_image_to_window(data->mlx->mlx_ptr,
 		data->mlx->win_ptr, data->mlx->img_ptr, 0, 0);
+	end = clock();
+	data->delta_time += (end - start);
+	//printf("%lu \n", data->delta_time);
+	data->fps++;
+	if (((double)data->delta_time / (double)CLOCKS_PER_SEC) > 1.0)
+	{
+		printf("fps: %d\n", data->fps);
+		data->fps = 0;
+		data->delta_time -= CLOCKS_PER_SEC;
+	}
 	return (1);
 }

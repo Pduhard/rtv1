@@ -6,7 +6,7 @@
 #    By: pduhard- <marvin@le-101.fr>                +:+   +:    +:    +:+      #
 #                                                  #+#   #+    #+    #+#       #
 #    Created: 2018/11/13 00:29:26 by pduhard-     #+#   ##    ##    #+#        #
-#    Updated: 2019/12/31 12:21:04 by pduhard-    ###    #+. /#+    ###.fr      #
+#    Updated: 2020/01/08 05:15:53 by pduhard-    ###    #+. /#+    ###.fr      #
 #                                                          /                   #
 #                                                         /                    #
 # **************************************************************************** #
@@ -37,6 +37,7 @@ SRC			=	main.c			\
 				conf.c			\
 				sphere.c		\
 				plane.c			\
+				cone.c			\
 				loop.c			\
 				key_hook.c		\
 				mouse_hook.c	\

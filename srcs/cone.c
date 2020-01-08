@@ -6,7 +6,7 @@
 /*   By: pduhard- <marvin@le-101.fr>                +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/12/30 18:21:18 by pduhard-     #+#   ##    ##    #+#       */
-/*   Updated: 2019/12/30 20:50:19 by pduhard-    ###    #+. /#+    ###.fr     */
+/*   Updated: 2020/01/08 06:15:28 by pduhard-    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -15,60 +15,125 @@
 // http://www.illusioncatalyst.com/notes_files/mathematics/line_cone_intersection.php
 t_3vecf	get_normal_intersect_cone(t_3vecf inter_point, t_obj *cone)
 {
-	t_plane *param;
+	float	intersect;
+	t_cone *cone_param;
+	t_3vecf	h;
 
-	param = (t_plane *)plane->obj_param;
-	return (t_3vecf(0, 0, 0));
+	cone_param = (t_cone *)cone->obj_param;
+	h = sub_3vecf(cone_param->center, cone_param->tip);
+	intersect = dot_product_3vecf(sub_3vecf(inter_point, cone_param->center), h);
+	
+	return (assign_3vecf(0, 0, 0));
 	(void)inter_point;
 }
 
 int	ray_intersect_cone(t_3vecf orig, t_3vecf dir, t_obj *cone, float *dist, float min_dist, float max_dist)
 {
+	float	m;
+	t_3vecf	h;
+	t_3vecf	norm_h;
+	float	h_length;
+	float	a;
+	float	b;
+	float	c;
+	int		check = 0;
+	t_cone	*cone_param;
 
+/*	(void)dist;
+	(void)min_dist;
+	(void)max_dist;
+*/	cone_param = (t_cone *)cone->obj_param;
+	h = sub_3vecf(cone_param->center, cone_param->tip);
+	norm_h = h;
+	normalize_3vecf(&norm_h);
+	h_length = get_length_3vecf(h);
+	m = (cone_param->radius * cone_param->radius) / (h_length * h_length);
+
+	float	dp_dir_norm_h;
+	float	dp_w_norm_h;
+	t_3vecf	w;
+
+	w = sub_3vecf(orig, cone_param->tip);
+	dp_dir_norm_h = dot_product_3vecf(dir, norm_h);
+	dp_w_norm_h = dot_product_3vecf(w, norm_h);
+
+	a = dot_product_3vecf(dir, dir) - m * dp_dir_norm_h * dp_dir_norm_h - dp_dir_norm_h * dp_dir_norm_h;
+
+	b = 2 * (dot_product_3vecf(dir, w) - m * dp_dir_norm_h * dp_w_norm_h - dp_dir_norm_h * dp_w_norm_h);
+	c = dot_product_3vecf(w, w) - m * dp_w_norm_h * dp_w_norm_h - dp_w_norm_h * dp_w_norm_h;
+	float	delta;
+
+	delta = b * b - 4 * a * c;
+	t_2vecf	hit_point;
+
+	if (delta > 0)
+	{
+		//h = sub_3vecf(cone_param->center, cone_param->tip);
+		hit_point.val[0] = (-b + sqrtf(delta)) / (2 * a);
+		hit_point.val[1] = (-b - sqrtf(delta)) / (2 * a);
+		if (hit_point.val[0] < *dist && hit_point.val[0] > min_dist && hit_point.val[0] < max_dist)
+		{
+			check = 1;
+			*dist = hit_point.val[0];
+		}
+		if (hit_point.val[1] < *dist && hit_point.val[1] > min_dist && hit_point.val[1] < max_dist)
+		{
+			check = 1;
+			*dist = hit_point.val[1];
+		}
+		return (check);
+	}
 	return (0);
 }
 
 int		parse_cone(char *line, t_data *data)
 {
 	int			i;
-	t_obj		*plane;
-	t_plane		*plane_param;
+	t_obj		*cone;
+	t_cone		*cone_param;
 
-	if (!(plane = malloc(sizeof(t_obj))) || !(plane_param = malloc(sizeof(t_plane))))
+	if (!(cone = malloc(sizeof(t_obj))) || !(cone_param = malloc(sizeof(t_cone))))
 		return (0);
-	i = 5;
+	i = 4;
 	while (ft_isspace(line[i]))
 		++i;
-	if (line[i] != '(' || (i = parse_3vecf(line, i, &plane_param->origin)) == -1)
+	if (line[i] != '(' || (i = parse_3vecf(line, i, &cone_param->center)) == -1)
 	{
-		ft_printf("Syntax error: cone syntax: cone(origin)(normal)(color)\n");
+		ft_printf("Syntax error: cone syntax: cone(center)(tip)(radius)\n");
 		return (0);
 	}
 	while (ft_isspace(line[i]))
 		++i;
-	if (line[i] != '(' || (i = parse_3vecf(line, i, &plane_param->normal)) == -1)
+	if (line[i] != '(' || (i = parse_3vecf(line, i, &cone_param->tip)) == -1)
 	{
-		ft_printf("Syntax error: cone syntax: cone(origin)(normal)(color)\n");
+		ft_printf("Syntax error: cone syntax: cone(center)(tip)(radius)\n");
 		return (0);
 	}
 	while (ft_isspace(line[i]))
 		++i;
-	if (line[i] != '(' || (i = parse_3vecf(line, i, &plane->color)) == -1)
+	if (line[i] != '(' || (i = parse_float(line, i, &cone_param->radius)) == -1)
 	{
-		ft_printf("Syntax error: cone syntax: cone(origin)(normal)(color)\n");
+		ft_printf("Syntax error: cone syntax: cone(center)(tip)(radius)\n");
 		return (0);
 	}
-	printf("plane : %f %f %f && %f %f %f && %f %f %f\n", plane_param->origin.val[0], plane_param->origin.val[1], plane_param->origin.val[2], plane_param->normal.val[0], plane_param->normal.val[1], plane_param->normal.val[2] , plane->color.val[0], plane->color.val[1], plane->color.val[2]);
-	plane->obj_param = plane_param;
-	plane->obj_type = OBJ_PLANE;
-	plane->ray_intersect = &ray_intersect_plane;
-	plane->get_normal_inter = &get_normal_intersect_plane;
+	while (ft_isspace(line[i]))
+		++i;
+	if (line[i] != '(' || (i = parse_3vecf(line, i, &cone->color)) == -1)
+	{
+		ft_printf("Syntax error: cone syntax: cone(center)(tip)(radius)\n");
+		return (0);
+	}
+	//printf("cone : %f %f %f && %f %f %f && %f %f %f\n", cone_param->origin.val[0], cone_param->origin.val[1], cone_param->origin.val[2], cone_param->normal.val[0], cone_param->normal.val[1], cone_param->normal.val[2] , cone->color.val[0], cone->color.val[1], cone->color.val[2]);
+	cone->obj_param = cone_param;
+	cone->obj_type = OBJ_CONE;
+	cone->ray_intersect = &ray_intersect_cone;
+	cone->get_normal_inter = &get_normal_intersect_cone;
 	if (data->objs)
 	{
-		plane->next = data->objs;
+		cone->next = data->objs;
 	}
 	else
-		plane->next = NULL;
-	data->objs = plane;
+		cone->next = NULL;
+	data->objs = cone;
 	return (1);
 }

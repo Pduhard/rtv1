@@ -6,7 +6,7 @@
 /*   By: pduhard- <marvin@le-101.fr>                +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/12/23 01:19:51 by pduhard-     #+#   ##    ##    #+#       */
-/*   Updated: 2019/12/30 17:08:05 by pduhard-    ###    #+. /#+    ###.fr     */
+/*   Updated: 2020/01/08 05:23:05 by pduhard-    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -285,6 +285,8 @@ int		parse_rt_line(char *line, t_data *data)
 		return (parse_sphere(line, data));
 	else if (!ft_strncmp(line, "plane", 5))
 		return (parse_plane(line, data));
+	else if (!ft_strncmp(line, "cone", 4))
+		return (parse_cone(line, data));
 	else
 	{
 		ft_printf("Unrecognized element: \n%s\n", line);

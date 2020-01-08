@@ -6,7 +6,7 @@
 /*   By: pduhard- <marvin@le-101.fr>                +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/12/30 20:52:29 by pduhard-     #+#   ##    ##    #+#       */
-/*   Updated: 2019/12/30 22:49:08 by pduhard-    ###    #+. /#+    ###.fr     */
+/*   Updated: 2020/01/08 04:03:16 by pduhard-    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -61,7 +61,20 @@ int		key_press(int keycode, void *param)
 		data->hooks |= F_KEY;
 	else if (keycode == 5) //w
 		data->hooks |= G_KEY;
-		//data->cam.origin[2] += 0.2;
+	else if (keycode == 123) //left 
+		data->hooks |= ARR_LEFT_KEY;
+	else if (keycode == 124) // right
+		data->hooks |= ARR_RIGHT_KEY;
+	else if (keycode == 125) // down 
+		data->hooks |= ARR_DOWN_KEY;
+	else if (keycode == 126) // up
+		data->hooks |= ARR_UP_KEY;
+	else if (keycode == 49)
+		data->hooks |= SPACE_KEY;
+	else if (keycode == 257)
+		data->hooks |= SHIFT_KEY;
+	//	else if (keycode == 69 && data->anti_al < MAX_ANTI_AL)
+//		data->anti_al++;
 ;/*		data->params.xp_from = 1;
 	else if (keycode == 0)
 		data->params.xm_from = 1;
@@ -123,6 +136,19 @@ int		key_release(int keycode, void *param)
 		data->hooks -= F_KEY;
 	else if (keycode == 5) //w
 		data->hooks -= G_KEY;
+	else if (keycode == 123) //left 
+		data->hooks -= ARR_LEFT_KEY;
+	else if (keycode == 124) // right
+		data->hooks -= ARR_RIGHT_KEY;
+	else if (keycode == 125) // down 
+		data->hooks -= ARR_DOWN_KEY;
+	else if (keycode == 126) // up
+		data->hooks -= ARR_UP_KEY;
+	else if (keycode == 49)
+		data->hooks -= SPACE_KEY;
+	else if (keycode == 257)
+		data->hooks -= SHIFT_KEY;
+
 	if (keycode == 2)
 	;/*	data->params.xp_from = 0;
 	else if (keycode == 0)
