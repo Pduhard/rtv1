@@ -6,7 +6,7 @@
 /*   By: pduhard- <marvin@le-101.fr>                +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/12/21 23:02:40 by pduhard-     #+#   ##    ##    #+#       */
-/*   Updated: 2020/01/08 05:18:02 by pduhard-    ###    #+. /#+    ###.fr     */
+/*   Updated: 2020/01/08 19:04:08 by pduhard-    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -53,3 +53,14 @@ t_3vecf	assign_3vecf(float x, float y, float z)
 	vec.val[2] = z;
 	return (vec);
 }
+
+t_3vecf	product_3vecf(t_3vecf a, t_3vecf b)
+{
+	t_3vecf	vec;
+
+	vec.val[0] = (a.val[1] * b.val[2] - a.val[2] * b.val[1]);
+	vec.val[1] = (a.val[2] * b.val[0] - a.val[0] * b.val[2]);
+	vec.val[2] = (a.val[0] * b.val[1] - a.val[1] * b.val[0]);
+	return (vec);
+}
+

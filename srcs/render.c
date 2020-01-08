@@ -6,7 +6,7 @@
 /*   By: pduhard- <marvin@le-101.fr>                +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/12/21 22:42:45 by pduhard-     #+#   ##    ##    #+#       */
-/*   Updated: 2020/01/08 05:26:26 by pduhard-    ###    #+. /#+    ###.fr     */
+/*   Updated: 2020/01/08 19:08:16 by pduhard-    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -172,8 +172,8 @@ t_3vecf	ray_trace(t_3vecf orig, t_3vecf dir, float min_dist, float max_dist, t_d
 	// new function i think ^^
 	//
 	//return (closest_obj->color);
-	if (closest_obj->obj_type == OBJ_CONE)
-		return (closest_obj->color);
+//	if (closest_obj->obj_type == OBJ_CONE)
+//		return (closest_obj->color);
 	t_3vecf		inter_point;
 	t_3vecf		normal_inter;
 	t_3vecf		lighted_color;

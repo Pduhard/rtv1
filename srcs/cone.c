@@ -6,7 +6,7 @@
 /*   By: pduhard- <marvin@le-101.fr>                +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/12/30 18:21:18 by pduhard-     #+#   ##    ##    #+#       */
-/*   Updated: 2020/01/08 06:15:28 by pduhard-    ###    #+. /#+    ###.fr     */
+/*   Updated: 2020/01/08 22:31:53 by pduhard-    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -16,14 +16,29 @@
 t_3vecf	get_normal_intersect_cone(t_3vecf inter_point, t_obj *cone)
 {
 	float	intersect;
-	t_cone *cone_param;
 	t_3vecf	h;
+
+
+	t_cone *cone_param;
+	t_3vecf	hp;
+	t_3vecf	cp;
+	t_3vecf	tang;
+	t_3vecf	tmp;
 
 	cone_param = (t_cone *)cone->obj_param;
 	h = sub_3vecf(cone_param->center, cone_param->tip);
 	intersect = dot_product_3vecf(sub_3vecf(inter_point, cone_param->center), h);
-	
-	return (assign_3vecf(0, 0, 0));
+	hp = sub_3vecf(cone_param->tip, inter_point);
+	cp = sub_3vecf(cone_param->center, inter_point);
+	tang = product_3vecf(hp, cp);
+	tmp = product_3vecf(hp, tang);
+	if (intersect < 0)
+		//return (tmp);
+		return (assign_3vecf(-tmp.val[0], -tmp.val[1], -tmp.val[2]));
+	else
+		return (tmp);
+		//return (assign_3vecf(-tmp.val[0], -tmp.val[1], -tmp.val[2]));
+		//return (tmp);
 	(void)inter_point;
 }
 

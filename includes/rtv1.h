@@ -6,7 +6,7 @@
 /*   By: pduhard- <marvin@le-101.fr>                +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/12/21 21:06:00 by pduhard-     #+#   ##    ##    #+#       */
-/*   Updated: 2020/01/08 05:23:21 by pduhard-    ###    #+. /#+    ###.fr     */
+/*   Updated: 2020/01/08 22:32:05 by pduhard-    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -178,6 +178,7 @@ t_3vecf	assign_3vecf(float x, float y, float z);
 void	normalize_3vecf(t_3vecf *vec);
 float	get_length_3vecf(t_3vecf vec);
 t_3vecf	sub_3vecf(t_3vecf a, t_3vecf b);
+t_3vecf	product_3vecf(t_3vecf a, t_3vecf b);
 float	dot_product_3vecf(t_3vecf a, t_3vecf b);
 
 t_3vecf	mult_3vecf_33matf(t_3vecf vect, t_33matf mat);
