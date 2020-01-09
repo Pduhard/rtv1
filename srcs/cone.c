@@ -6,7 +6,7 @@
 /*   By: pduhard- <marvin@le-101.fr>                +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/12/30 18:21:18 by pduhard-     #+#   ##    ##    #+#       */
-/*   Updated: 2020/01/08 22:31:53 by pduhard-    ###    #+. /#+    ###.fr     */
+/*   Updated: 2020/01/08 23:56:29 by pduhard-    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -27,7 +27,7 @@ t_3vecf	get_normal_intersect_cone(t_3vecf inter_point, t_obj *cone)
 
 	cone_param = (t_cone *)cone->obj_param;
 	h = sub_3vecf(cone_param->center, cone_param->tip);
-	intersect = dot_product_3vecf(sub_3vecf(inter_point, cone_param->center), h);
+	intersect = dot_product_3vecf(sub_3vecf(inter_point, cone_param->tip), h);
 	hp = sub_3vecf(cone_param->tip, inter_point);
 	cp = sub_3vecf(cone_param->center, inter_point);
 	tang = product_3vecf(hp, cp);
@@ -84,6 +84,7 @@ int	ray_intersect_cone(t_3vecf orig, t_3vecf dir, t_obj *cone, float *dist, floa
 	if (delta > 0)
 	{
 		//h = sub_3vecf(cone_param->center, cone_param->tip);
+		// floating point exception ???
 		hit_point.val[0] = (-b + sqrtf(delta)) / (2 * a);
 		hit_point.val[1] = (-b - sqrtf(delta)) / (2 * a);
 		if (hit_point.val[0] < *dist && hit_point.val[0] > min_dist && hit_point.val[0] < max_dist)

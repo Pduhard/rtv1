@@ -6,7 +6,7 @@
 /*   By: pduhard- <marvin@le-101.fr>                +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/12/21 22:42:45 by pduhard-     #+#   ##    ##    #+#       */
-/*   Updated: 2020/01/08 19:08:16 by pduhard-    ###    #+. /#+    ###.fr     */
+/*   Updated: 2020/01/09 22:32:22 by pduhard-    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -122,7 +122,7 @@ float	compute_lights(t_3vecf inter_point, t_3vecf normal_inter, t_3vecf inv_dir,
 	float	norm_dot_ldir;
 	float	ref_dot_idir;
 	float	shadow_dist;
-
+	float	light_len;
 	t_3vecf	light_dir;
 	t_3vecf	spec_vec;
 	t_obj	*shadow_obj;
@@ -135,11 +135,19 @@ float	compute_lights(t_3vecf inter_point, t_3vecf normal_inter, t_3vecf inv_dir,
 		else
 		{
 			if (lights->light_type == LIGHT_POINT)
+			{
 				light_dir = sub_3vecf(lights->origin, inter_point);
+				light_len = get_length_3vecf(light_dir);
+			}
 			else if (lights->light_type == LIGHT_DIRECTIONAL)
+			{
 				light_dir = lights->origin;
-			shadow_obj = ray_first_intersect(inter_point, light_dir, 0.001, FLT_MAX, &shadow_dist, objs);
-			if (!shadow_obj)
+				light_len = FLT_MAX;
+			}
+			//get_length_3vecf(light_dir);
+			normalize_3vecf(&light_dir);// same
+			shadow_obj = ray_first_intersect(inter_point, light_dir, 0.001, light_len, &shadow_dist, objs);
+			if (!shadow_obj)// || shadow_dist > get_length_3vecf(light_dir))
 			{
 				norm_dot_ldir = dot_product_3vecf(normal_inter, light_dir);
 				if (norm_dot_ldir > 0)
@@ -185,6 +193,8 @@ t_3vecf	ray_trace(t_3vecf orig, t_3vecf dir, float min_dist, float max_dist, t_d
 	inter_point.val[2] = orig.val[2] + dir.val[2] * closest_dist;
 	normal_inter = closest_obj->get_normal_inter(inter_point, closest_obj);
 	normalize_3vecf(&normal_inter);
+	if (dot_product_3vecf(normal_inter, dir) > 0)
+		normal_inter = assign_3vecf(-normal_inter.val[0], -normal_inter.val[1], -normal_inter.val[2]);
 /*	normal_length = get_length_3vecf(normal_inter);
 	normal_inter.val[0] /= normal_length;
 	normal_inter.val[1] /= normal_length;
@@ -255,7 +265,7 @@ void	*render_thread(void *param)
 			dir.val[1] = (dir.val[1] + dir_t.val[1]) / 2;
 			dir.val[2] = (dir.val[2] + dir_t.val[2]) / 2;
 			*///dir = mult_3vecf_33matf(window_to_view(i, j), mult_33matf_33matf(data->rot_mat[1], data->rot_mat[0]));
-			color = ray_trace(orig, dir, 1, FLT_MAX, data);
+			color = ray_trace(orig, dir, 0.01, FLT_MAX, data);
 		//	color = (i + WIN_WIDTH / 2 ) * 256 + j + WIN_HEIGHT / 2;
 			ray_put_pixel(i, j, data->mlx->img_str, color);
 			++j;

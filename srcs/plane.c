@@ -6,7 +6,7 @@
 /*   By: pduhard- <marvin@le-101.fr>                +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/12/30 17:05:21 by pduhard-     #+#   ##    ##    #+#       */
-/*   Updated: 2019/12/30 17:25:19 by pduhard-    ###    #+. /#+    ###.fr     */
+/*   Updated: 2020/01/09 22:19:11 by pduhard-    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -18,6 +18,8 @@ t_3vecf	get_normal_intersect_plane(t_3vecf inter_point, t_obj *plane)
 	t_plane *param;
 
 	param = (t_plane *)plane->obj_param;
+//	if (dot_product_3vecf(inter_point, param->normal) > 0)
+//		return (assign_3vecf(-param->normal.val[0], -param->normal.val[1], -param->normal.val[2]));
 	return (param->normal);
 	(void)inter_point;
 }
@@ -32,8 +34,8 @@ int	ray_intersect_plane(t_3vecf orig, t_3vecf dir, t_obj *plane, float *dist, fl
 	div = dot_product_3vecf(dir, plane_param->normal);
 	if (div == 0)//> -0.00000001 && div < 0.00000001)
 	{
-		*dist = max_dist - 0.00001;
-		return (1);
+		div = 0.00000001;
+//		return (1);
 	}
 	inter_dist = dot_product_3vecf(sub_3vecf(plane_param->origin, orig), plane_param->normal) / div;
 	if (inter_dist < *dist && inter_dist > min_dist && inter_dist < max_dist)
