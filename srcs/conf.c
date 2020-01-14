@@ -3,10 +3,10 @@
 /*                                                              /             */
 /*   conf.c                                           .::    .:/ .      .::   */
 /*                                                 +:+:+   +:    +:  +:+:+    */
-/*   By: pduhard- <marvin@le-101.fr>                +:+   +:    +:    +:+     */
+/*   By: aplat <aplat@student.le-101.fr>            +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/12/23 01:19:51 by pduhard-     #+#   ##    ##    #+#       */
-/*   Updated: 2020/01/08 05:23:05 by pduhard-    ###    #+. /#+    ###.fr     */
+/*   Updated: 2020/01/14 07:29:33 by aplat       ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -287,6 +287,8 @@ int		parse_rt_line(char *line, t_data *data)
 		return (parse_plane(line, data));
 	else if (!ft_strncmp(line, "cone", 4))
 		return (parse_cone(line, data));
+	else if (!ft_strncmp(line, "cylinder", 8))
+		return (parse_cylinder(line, data));
 	else
 	{
 		ft_printf("Unrecognized element: \n%s\n", line);

@@ -3,10 +3,10 @@
 /*                                                              /             */
 /*   rtv1.h                                           .::    .:/ .      .::   */
 /*                                                 +:+:+   +:    +:  +:+:+    */
-/*   By: pduhard- <marvin@le-101.fr>                +:+   +:    +:    +:+     */
+/*   By: aplat <aplat@student.le-101.fr>            +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/12/21 21:06:00 by pduhard-     #+#   ##    ##    #+#       */
-/*   Updated: 2020/01/09 21:27:52 by pduhard-    ###    #+. /#+    ###.fr     */
+/*   Updated: 2020/01/14 07:41:19 by aplat       ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -46,7 +46,7 @@
 # define SPACE_KEY	(1 << 10)
 # define SHIFT_KEY	(1 << 11)
 
-typedef	enum	{OBJ_SPHERE, OBJ_PLANE, OBJ_CONE} e_obj_type;
+typedef	enum	{OBJ_SPHERE, OBJ_PLANE, OBJ_CONE, OBJ_CYLINDER} e_obj_type;
 typedef	enum	{LIGHT_POINT, LIGHT_AMBIENT, LIGHT_DIRECTIONAL} e_light_type;
 
 typedef struct	s_mlx
@@ -100,6 +100,13 @@ typedef struct	s_cone
 	//t_3vecf		origin;
 //	t_3vecf		normal;
 }				t_cone;
+
+typedef struct	s_cylinder
+{
+	t_3vecf		center;
+	t_3vecf		tip;
+	float		radius;
+}				t_cylinder;
 
 typedef struct	s_obj
 {
@@ -173,6 +180,7 @@ int		parse_float(char *line, int i, float *val);
 int		parse_sphere(char *line, t_data *data);
 int		parse_plane(char *line, t_data *data);
 int		parse_cone(char *line, t_data *data);
+int		parse_cylinder(char *line, t_data *data);
 
 t_3vecf	assign_3vecf(float x, float y, float z);
 void	normalize_3vecf(t_3vecf *vec);
