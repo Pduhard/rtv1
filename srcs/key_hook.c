@@ -3,10 +3,10 @@
 /*                                                              /             */
 /*   key_hook.c                                       .::    .:/ .      .::   */
 /*                                                 +:+:+   +:    +:  +:+:+    */
-/*   By: pduhard- <marvin@le-101.fr>                +:+   +:    +:    +:+     */
+/*   By: aplat <aplat@student.le-101.fr>            +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/12/30 20:52:29 by pduhard-     #+#   ##    ##    #+#       */
-/*   Updated: 2020/01/08 04:03:16 by pduhard-    ###    #+. /#+    ###.fr     */
+/*   Updated: 2020/01/15 21:44:04 by aplat       ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -46,6 +46,12 @@ int		key_press(int keycode, void *param)
 
 	data = (t_data *)param;
 	printf("keycode : %d\n", keycode);
+	if (keycode == ESC_KEY)
+	{
+		mlx_destroy_window(data->mlx->mlx_ptr, data->mlx->win_ptr);
+		exit(0);
+		return (0);
+	}
 	if (keycode == 0) //
 		data->hooks |= A_KEY;
 		//data->cam.origin[0] -= 0.2;
