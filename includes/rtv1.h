@@ -6,7 +6,7 @@
 /*   By: aplat <aplat@student.le-101.fr>            +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/12/21 21:06:00 by pduhard-     #+#   ##    ##    #+#       */
-/*   Updated: 2020/01/15 21:43:00 by aplat       ###    #+. /#+    ###.fr     */
+/*   Updated: 2020/01/15 21:51:26 by aplat       ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -202,6 +202,7 @@ int		key_press(int keycode, void *param);
 int		key_release(int keycode, void *param);
 int		moov_hook(int x, int y, void *param);
 int		print_loop_image(void *param);
+int		close_cross(t_data *data);
 
 
 t_3vecf get_normal_intersect_cone(t_3vecf inter_point, t_obj *cone);
