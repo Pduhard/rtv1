@@ -6,7 +6,7 @@
 /*   By: aplat <aplat@student.le-101.fr>            +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2020/01/13 20:10:21 by aplat        #+#   ##    ##    #+#       */
-/*   Updated: 2020/01/14 09:25:01 by aplat       ###    #+. /#+    ###.fr     */
+/*   Updated: 2020/01/15 19:58:15 by pduhard-    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -16,27 +16,43 @@
 
 t_3vecf	get_normal_intersect_cylinder(t_3vecf inter_point, t_obj *cylinder)
 {
-	float	intersect;
-	t_3vecf	h;
+//	float	intersect;
+	//t_3vecf	h;
 
 	t_cylinder	*cylinder_param;
-	t_3vecf	hp;
+//	t_3vecf	hp;
+	t_3vecf	ch;
 	t_3vecf	cp;
-	t_3vecf	tang;
-	t_3vecf	tmp;
+	t_3vecf	inter_proj;
+	float	length_ch;
+	float	step_inter_proj;
+//	t_3vecf	tang;
+//	t_3vecf	tmp;
 
+	//return (assign_3vecf(1, 0, 0));
 	cylinder_param = (t_cylinder *)cylinder->obj_param;
-	h = sub_3vecf(cylinder_param->center, cylinder_param->tip);
-	intersect = dot_product_3vecf(sub_3vecf(inter_point, cylinder_param->center), h);
-	hp = sub_3vecf(cylinder_param->tip, inter_point);
-	cp = sub_3vecf(cylinder_param->center, inter_point);
-	tang = product_3vecf(hp, cp);
-	tmp = product_3vecf(hp, tang);
-	if (intersect < 0)
-		return (assign_3vecf(-tmp.val[0], -tmp.val[1], -tmp.val[2]));
-	else
-		return (tmp);
-	(void)inter_point;
+//	hp = sub_3vecf(inter_point, cylinder_param->tip);
+	cp = sub_3vecf(inter_point, cylinder_param->center);
+	ch = sub_3vecf(cylinder_param->tip, cylinder_param->center);
+	float inter_proj_dist = dot_product_3vecf(ch, cp) / get_length_3vecf(ch);
+	length_ch = get_length_3vecf(ch);
+	step_inter_proj = inter_proj_dist / length_ch;
+	inter_proj = assign_3vecf(	cylinder_param->center.val[0] + ch.val[0] * step_inter_proj,
+								cylinder_param->center.val[1] + ch.val[1] * step_inter_proj,
+								cylinder_param->center.val[2] + ch.val[2] * step_inter_proj);
+	//h = sub_3vecf(cylinder_param->center, cylinder_param->tip);
+	
+//	tang = product_3vecf(hp, cp);
+	//t_3vecf tmp = sub_3vecf(inter_proj, inter_point);
+	//printf("ch %f %f %f cp %f %f %f step %f proj %f %f %f => point %f %f %f\n",ch.val[0], ch.val[1], ch.val[2],cp.val[0], cp.val[1], cp.val[2], step_inter_proj, inter_proj.val[0], inter_proj.val[1], inter_proj.val[2], inter_point.val[0], inter_point.val[1], inter_point.val[2]);
+	//usleep(10);
+	return (sub_3vecf(inter_proj, inter_point));
+//	intersect = dot_product_3vecf(sub_3vecf(inter_point, cylinder_param->center), ch);
+//	if (intersect < 0)
+//		return (assign_3vecf(-tmp.val[0], -tmp.val[1], -tmp.val[2]));
+//	else
+//		return (tmp);
+	//(void)inter_point;
 }
 
 int ray_intersect_cylinder(t_3vecf orig, t_3vecf dir, t_obj *cylinder, float *dist, float min_dist, float max_dist)

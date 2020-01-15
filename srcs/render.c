@@ -6,7 +6,7 @@
 /*   By: pduhard- <marvin@le-101.fr>                +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/12/21 22:42:45 by pduhard-     #+#   ##    ##    #+#       */
-/*   Updated: 2020/01/09 22:32:22 by pduhard-    ###    #+. /#+    ###.fr     */
+/*   Updated: 2020/01/15 21:27:09 by pduhard-    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -147,6 +147,7 @@ float	compute_lights(t_3vecf inter_point, t_3vecf normal_inter, t_3vecf inv_dir,
 			//get_length_3vecf(light_dir);
 			normalize_3vecf(&light_dir);// same
 			shadow_obj = ray_first_intersect(inter_point, light_dir, 0.001, light_len, &shadow_dist, objs);
+		//	shadow_obj = NULL;//ray_first_intersect(inter_point, light_dir, 0.001, light_len, &shadow_dist, objs);
 			if (!shadow_obj)// || shadow_dist > get_length_3vecf(light_dir))
 			{
 				norm_dot_ldir = dot_product_3vecf(normal_inter, light_dir);
