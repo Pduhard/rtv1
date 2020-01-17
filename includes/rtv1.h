@@ -6,7 +6,7 @@
 /*   By: aplat <aplat@student.le-101.fr>            +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/12/21 21:06:00 by pduhard-     #+#   ##    ##    #+#       */
-/*   Updated: 2020/01/15 21:51:26 by aplat       ###    #+. /#+    ###.fr     */
+/*   Updated: 2020/01/17 07:16:33 by aplat       ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -21,8 +21,8 @@
 # include <fcntl.h>
 # include <float.h>
 # include <time.h>
-# define WIN_WIDTH	600
-# define WIN_HEIGHT	600
+# define WIN_WIDTH	800
+# define WIN_HEIGHT	800
 # define NB_THREADS	8
 # define MAX_ANTI_AL	4
 # define MAX_ANTI_AL2	16
