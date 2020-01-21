@@ -6,7 +6,7 @@
 #    By: aplat <aplat@student.le-101.fr>            +:+   +:    +:    +:+      #
 #                                                  #+#   #+    #+    #+#       #
 #    Created: 2018/11/13 00:29:26 by pduhard-     #+#   ##    ##    #+#        #
-#    Updated: 2020/01/17 06:18:12 by aplat       ###    #+. /#+    ###.fr      #
+#    Updated: 2020/01/21 08:39:38 by aplat       ###    #+. /#+    ###.fr      #
 #                                                          /                   #
 #                                                         /                    #
 # **************************************************************************** #
@@ -30,6 +30,7 @@ MLX_PATH	=	./minilibx_macos/
 
 SRC			=	main.c			\
 				init.c			\
+				error.c 		\
 				matrix.c		\
 				vector.c		\
 				render.c		\
@@ -40,8 +41,10 @@ SRC			=	main.c			\
 				cone.c			\
 				loop.c			\
 				key_hook.c		\
-				mouse_hook.c	\
 				cylinder.c		\
+				raytracing.c	\
+				utils.c			\
+				error_syntax.c	\
 
 BIN			=	$(SRC:.c=.o)
 

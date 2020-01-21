@@ -6,7 +6,7 @@
 /*   By: aplat <aplat@student.le-101.fr>            +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2020/01/17 05:58:07 by aplat        #+#   ##    ##    #+#       */
-/*   Updated: 2020/01/17 06:00:05 by aplat       ###    #+. /#+    ###.fr     */
+/*   Updated: 2020/01/21 02:21:17 by aplat       ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -17,16 +17,9 @@ int		main(int argc, char **argv)
 {
 	t_data	*data;
 
-	if (argc != 2)
-	{
-		if (!(data = init_data("conf/default.rt_conf")))
-			return (0);
-	}
-	else
-	{
-		if (!(data = init_data(argv[1])))
-			return (0);
-	}
+	sleep(1);
+	if (!(data = check_error_arg(argc, argv)))
+		return (0);
 	render(data);
 	mlx_hook(data->mlx->win_ptr, 2, 303, key_press, (void *)data);
 	mlx_hook(data->mlx->win_ptr, 3, 303, key_release, (void *)data);
