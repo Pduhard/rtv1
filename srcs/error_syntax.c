@@ -6,7 +6,7 @@
 /*   By: aplat <aplat@student.le-101.fr>            +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2020/01/21 08:35:22 by aplat        #+#   ##    ##    #+#       */
-/*   Updated: 2020/01/21 09:01:40 by aplat       ###    #+. /#+    ###.fr     */
+/*   Updated: 2020/01/22 10:11:08 by aplat       ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -86,5 +86,22 @@ int		syntax_sphere(char *line, int i, t_sphere *s, t_3vecf *color)
 		++i;
 	if (line[i] != '(' || (i = parse_3vecf(line, i, color)) == -1)
 		return (return_update(SERRORSPHERE, 0));
+	return (1);
+}
+
+int		syntax_light(char *line, int i, t_light *l)
+{
+	while (ft_isspace(line[i]))
+		++i;
+	if (line[i++] != ')')
+		return (return_update(SERRORLIGHT, 0));
+	while (ft_isspace(line[i]))
+		++i;
+	if (line[i] != '(' || (i = parse_3vecf(line, i, &l->origin)) == -1)
+		return (return_update(SERRORLIGHT, 0));
+	while (ft_isspace(line[i]))
+		++i;
+	if (line[i] != '(' || (i = parse_float(line, i, &l->intensity)) == -1)
+		return (return_update(SERRORLIGHT, 0));
 	return (1);
 }

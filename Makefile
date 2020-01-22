@@ -6,7 +6,7 @@
 #    By: aplat <aplat@student.le-101.fr>            +:+   +:    +:    +:+      #
 #                                                  #+#   #+    #+    #+#       #
 #    Created: 2018/11/13 00:29:26 by pduhard-     #+#   ##    ##    #+#        #
-#    Updated: 2020/01/21 08:39:38 by aplat       ###    #+. /#+    ###.fr      #
+#    Updated: 2020/01/22 10:31:14 by aplat       ###    #+. /#+    ###.fr      #
 #                                                          /                   #
 #                                                         /                    #
 # **************************************************************************** #
@@ -33,6 +33,7 @@ SRC			=	main.c			\
 				error.c 		\
 				matrix.c		\
 				vector.c		\
+				vector2.c		\
 				render.c		\
 				angles_utils.c	\
 				conf.c			\
@@ -44,6 +45,7 @@ SRC			=	main.c			\
 				cylinder.c		\
 				raytracing.c	\
 				utils.c			\
+				utils2.c		\
 				error_syntax.c	\
 
 BIN			=	$(SRC:.c=.o)

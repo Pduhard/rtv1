@@ -6,17 +6,21 @@
 /*   By: aplat <aplat@student.le-101.fr>            +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/12/30 18:21:18 by pduhard-     #+#   ##    ##    #+#       */
-/*   Updated: 2020/01/21 08:56:25 by aplat       ###    #+. /#+    ###.fr     */
+/*   Updated: 2020/01/22 14:47:44 by aplat       ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
 
 #include "rtv1.h"
-// http://www.illusioncatalyst.com/notes_files/mathematics/line_cone_intersection.php
 
-t_polynome	polynome_cone(t_3vecf orig, t_3vecf dir, t_cone c)
+/*
+** http://www.illusioncatalyst.com/notes_files/
+**			mathematics/line_cone_intersection.php
+*/
+
+t_polynome		polynome_cone(t_3vecf orig, t_3vecf dir, t_cone c)
 {
-	t_polynome poly;
+	t_polynome	poly;
 
 	poly.w = sub_3vecf(orig, c.tip);
 	poly.dp_dir_norm_h = dot_product_3vecf(dir, c.norm_h);
@@ -31,7 +35,7 @@ t_polynome	polynome_cone(t_3vecf orig, t_3vecf dir, t_cone c)
 	return (poly);
 }
 
-void	set_cone(t_cone *c)
+void			set_cone(t_cone *c)
 {
 	c->h = sub_3vecf(c->center, c->tip);
 	c->norm_h = c->h;
@@ -40,19 +44,19 @@ void	set_cone(t_cone *c)
 	c->m = (c->radius * c->radius) / (c->h_length * c->h_length);
 }
 
-t_3vecf	get_normal_intersect_cone(t_3vecf inter_point, t_obj *cone)
+t_3vecf			get_normal_intersect_cone(t_3vecf inter_point, t_obj *cone)
 {
-	float	intersect;
-	t_cone *cone_param;
-	t_3vecf	hp;
-	t_3vecf	cp;
-	t_3vecf	tmp;
+	float		intersect;
+	t_cone		*c;
+	t_3vecf		hp;
+	t_3vecf		cp;
+	t_3vecf		tmp;
 
-	cone_param = (t_cone *)cone->obj_param;
-	cone_param->h = sub_3vecf(cone_param->center, cone_param->tip);
-	intersect = dot_product_3vecf(sub_3vecf(inter_point, cone_param->tip), cone_param->h);
-	hp = sub_3vecf(cone_param->tip, inter_point);
-	cp = sub_3vecf(cone_param->center, inter_point);
+	c = (t_cone *)cone->obj_param;
+	c->h = sub_3vecf(c->center, c->tip);
+	intersect = dot_product_3vecf(sub_3vecf(inter_point, c->tip), c->h);
+	hp = sub_3vecf(c->tip, inter_point);
+	cp = sub_3vecf(c->center, inter_point);
 	tmp = product_3vecf(hp, product_3vecf(hp, cp));
 	if (intersect < 0)
 		return (invert_3vecf(tmp));
@@ -60,25 +64,28 @@ t_3vecf	get_normal_intersect_cone(t_3vecf inter_point, t_obj *cone)
 		return (tmp);
 }
 
-int	ray_intersect_cone(t_3vecf orig, t_3vecf dir, t_obj *cone, float *dist, float min_dist, float max_dist)
+int				ray_intersect_cone(t_3vecf orig, t_3vecf dir, t_obj *cone,
+				t_dist dist)
 {
-	t_cone	*cone_param;
+	t_cone		*cone_param;
 	t_polynome	poly;
 
 	cone_param = (t_cone *)cone->obj_param;
 	poly = polynome_cone(orig, dir, *cone_param);
-	if (solve_quadra(poly, dist, min_dist, max_dist) == 0)
+	if (solve_quadra(poly, dist.closest_dist, dist.min_dist,
+		dist.max_dist) == 0)
 		return (0);
 	return (1);
 }
 
-int		parse_cone(char *line, t_data *data)
+int				parse_cone(char *line, t_data *data)
 {
 	int			i;
 	t_obj		*cone;
 	t_cone		*cone_param;
 
-	if (!(cone = malloc(sizeof(t_obj))) || !(cone_param = malloc(sizeof(t_cone))))
+	if (!(cone = malloc(sizeof(t_obj)))
+		|| !(cone_param = malloc(sizeof(t_cone))))
 		return (0);
 	i = 4;
 	if (!(syntax_cone(line, i, cone_param, &cone->color)))

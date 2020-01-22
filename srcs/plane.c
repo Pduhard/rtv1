@@ -6,46 +6,48 @@
 /*   By: aplat <aplat@student.le-101.fr>            +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/12/30 17:05:21 by pduhard-     #+#   ##    ##    #+#       */
-/*   Updated: 2020/01/21 08:53:20 by aplat       ###    #+. /#+    ###.fr     */
+/*   Updated: 2020/01/22 14:48:10 by aplat       ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
 
 #include "rtv1.h"
 
-t_3vecf	get_normal_intersect_plane(t_3vecf inter_point, t_obj *plane)
+t_3vecf		get_normal_intersect_plane(t_3vecf inter_point, t_obj *plane)
 {
-	t_plane *param;
+	t_plane	*param;
 
 	param = (t_plane *)plane->obj_param;
 	return (param->normal);
 	(void)inter_point;
 }
 
-int	ray_intersect_plane(t_3vecf orig, t_3vecf dir, t_obj *plane, float *dist, float min_dist, float max_dist)
+int			ray_intersect_plane(t_3vecf orig, t_3vecf dir, t_obj *plane,
+	t_dist dist)
 {
-	t_plane	*plane_param;
+	t_plane	*p;
 	float	div;
 	float	inter_dist;
 
-	plane_param = (t_plane *)plane->obj_param;
-	div = dot_product_3vecf(dir, plane_param->normal);
+	p = (t_plane *)plane->obj_param;
+	div = dot_product_3vecf(dir, p->normal);
 	if (div == 0)
 		return (0);
-	inter_dist = dot_product_3vecf(sub_3vecf(plane_param->origin, orig), plane_param->normal) / div;
-	if (inter_dist < *dist && inter_dist > min_dist && inter_dist < max_dist)
+	inter_dist = dot_product_3vecf(sub_3vecf(p->origin, orig), p->normal) / div;
+	if (inter_dist < *dist.closest_dist && inter_dist > dist.min_dist
+		&& inter_dist < dist.max_dist)
 	{
-		*dist = inter_dist;
+		*dist.closest_dist = inter_dist;
 		return (1);
 	}
 	return (0);
 }
 
-int		parse_plane(char *line, t_data *data)
+int			parse_plane(char *line, t_data *data)
 {
-	int			i;
-	t_obj		*plane;
-	t_plane		*plane_param;
+	int		i;
+	t_obj	*plane;
+	t_plane	*plane_param;
 
 	if (!(plane = malloc(sizeof(t_obj)))
 		|| !(plane_param = malloc(sizeof(t_plane))))

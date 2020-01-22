@@ -6,7 +6,7 @@
 /*   By: aplat <aplat@student.le-101.fr>            +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/12/30 16:52:54 by pduhard-     #+#   ##    ##    #+#       */
-/*   Updated: 2020/01/21 09:02:02 by aplat       ###    #+. /#+    ###.fr     */
+/*   Updated: 2020/01/22 14:49:43 by aplat       ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -24,29 +24,31 @@ t_polynome	polynome_sphere(t_3vecf dir, t_sphere s, t_3vecf dist)
 	return (poly);
 }
 
-t_3vecf	get_normal_intersect_sphere(t_3vecf inter_point, t_obj *sphere)
+t_3vecf		get_normal_intersect_sphere(t_3vecf inter_point, t_obj *sphere)
 {
-	t_sphere *param;
+	t_sphere	*param;
 
 	param = (t_sphere *)sphere->obj_param;
 	return (sub_3vecf(inter_point, param->origin));
 }
 
-int	ray_intersect_sphere(t_3vecf orig, t_3vecf dir, t_obj *sphere, float *dist, float min_dist, float max_dist)
+int			ray_intersect_sphere(t_3vecf orig, t_3vecf dir, t_obj *sphere,
+	t_dist dist)
 {
-	t_3vecf	dist_vec;
+	t_3vecf		dist_vec;
 	t_sphere	*sphere_param;
 	t_polynome	poly;
 
 	sphere_param = (t_sphere *)sphere->obj_param;
 	dist_vec = sub_3vecf(orig, sphere_param->origin);
 	poly = polynome_sphere(dir, *sphere_param, dist_vec);
-	if (solve_quadra(poly, dist, min_dist, max_dist) == 0)
+	if (solve_quadra(poly, dist.closest_dist, dist.min_dist,
+		dist.max_dist) == 0)
 		return (0);
 	return (1);
 }
 
-int		parse_sphere(char *line, t_data *data)
+int			parse_sphere(char *line, t_data *data)
 {
 	int			i;
 	t_obj		*sphere;

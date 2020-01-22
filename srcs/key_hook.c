@@ -6,7 +6,7 @@
 /*   By: aplat <aplat@student.le-101.fr>            +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/12/30 20:52:29 by pduhard-     #+#   ##    ##    #+#       */
-/*   Updated: 2020/01/21 03:40:30 by aplat       ###    #+. /#+    ###.fr     */
+/*   Updated: 2020/01/22 09:57:31 by aplat       ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -15,7 +15,6 @@
 
 int		close_cross(t_data *data)
 {
-	//free
 	data = NULL;
 	exit(0);
 	return (0);
@@ -29,10 +28,8 @@ int		key_press(int keycode, void *param)
 	printf("keycode : %d\n", keycode);
 	if (keycode == ESC_KEY)
 	{
-		//free
 		mlx_destroy_window(data->mlx->mlx_ptr, data->mlx->win_ptr);
 		exit(0);
-		return (0);
 	}
 	if (keycode == 0)
 		data->hooks |= A_KEY;
@@ -44,7 +41,17 @@ int		key_press(int keycode, void *param)
 		data->hooks |= W_KEY;
 	else if (keycode == 3)
 		data->hooks |= F_KEY;
-	else if (keycode == 5)
+	else
+		return (key_press2(keycode, data));
+	return (1);
+}
+
+int		key_press2(int keycode, void *param)
+{
+	t_data	*data;
+
+	data = (t_data *)param;
+	if (keycode == 5)
 		data->hooks |= G_KEY;
 	else if (keycode == 123)
 		data->hooks |= ARR_LEFT_KEY;
@@ -76,7 +83,17 @@ int		key_release(int keycode, void *param)
 		data->hooks -= W_KEY;
 	else if (keycode == 3)
 		data->hooks -= F_KEY;
-	else if (keycode == 5)
+	else
+		return (key_release2(keycode, data));
+	return (1);
+}
+
+int		key_release2(int keycode, void *param)
+{
+	t_data *data;
+
+	data = (t_data *)param;
+	if (keycode == 5)
 		data->hooks -= G_KEY;
 	else if (keycode == 123)
 		data->hooks -= ARR_LEFT_KEY;
