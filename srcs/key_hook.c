@@ -6,7 +6,7 @@
 /*   By: aplat <aplat@student.le-101.fr>            +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/12/30 20:52:29 by pduhard-     #+#   ##    ##    #+#       */
-/*   Updated: 2020/01/23 11:02:48 by aplat       ###    #+. /#+    ###.fr     */
+/*   Updated: 2020/01/23 11:52:19 by aplat       ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -25,7 +25,6 @@ int		key_press(int keycode, void *param)
 	t_data *data;
 
 	data = (t_data *)param;
-	ft_printf("keycode : %d\n", keycode);
 	if (keycode == ESC_KEY)
 	{
 		free_all(data);
