@@ -6,7 +6,7 @@
 /*   By: aplat <aplat@student.le-101.fr>            +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/12/21 22:19:28 by pduhard-     #+#   ##    ##    #+#       */
-/*   Updated: 2020/01/21 04:33:37 by aplat       ###    #+. /#+    ###.fr     */
+/*   Updated: 2020/01/23 11:11:03 by aplat       ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -58,8 +58,7 @@ t_data			*init_data(char *file_name)
 		return (NULL);
 	if (!(data->mlx = init_mlx(data->scene_name)))
 	{
-		free(data->objs);
-		free(data);
+		free_all(data);
 		return (NULL);
 	}
 	data->rot_mat[1] =

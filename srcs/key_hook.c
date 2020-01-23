@@ -6,7 +6,7 @@
 /*   By: aplat <aplat@student.le-101.fr>            +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/12/30 20:52:29 by pduhard-     #+#   ##    ##    #+#       */
-/*   Updated: 2020/01/22 09:57:31 by aplat       ###    #+. /#+    ###.fr     */
+/*   Updated: 2020/01/23 11:02:48 by aplat       ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -15,7 +15,7 @@
 
 int		close_cross(t_data *data)
 {
-	data = NULL;
+	free_all(data);
 	exit(0);
 	return (0);
 }
@@ -25,10 +25,10 @@ int		key_press(int keycode, void *param)
 	t_data *data;
 
 	data = (t_data *)param;
-	printf("keycode : %d\n", keycode);
+	ft_printf("keycode : %d\n", keycode);
 	if (keycode == ESC_KEY)
 	{
-		mlx_destroy_window(data->mlx->mlx_ptr, data->mlx->win_ptr);
+		free_all(data);
 		exit(0);
 	}
 	if (keycode == 0)

@@ -6,7 +6,7 @@
 /*   By: aplat <aplat@student.le-101.fr>            +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/12/21 21:06:00 by pduhard-     #+#   ##    ##    #+#       */
-/*   Updated: 2020/01/22 15:14:05 by aplat       ###    #+. /#+    ###.fr     */
+/*   Updated: 2020/01/23 11:35:26 by aplat       ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -283,5 +283,9 @@ int					syntax_light(char *line, int i, t_light *l);
 
 void				move_cam(t_data *data);
 void				rotate_cam(t_data *data);
+
+void				free_all(t_data *data);
+void				free_objs(t_obj *objs);
+void				free_lights(t_light *lights);
 
 #endif

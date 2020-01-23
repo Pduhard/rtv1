@@ -6,7 +6,7 @@
 /*   By: aplat <aplat@student.le-101.fr>            +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/12/23 01:19:51 by pduhard-     #+#   ##    ##    #+#       */
-/*   Updated: 2020/01/22 08:53:09 by aplat       ###    #+. /#+    ###.fr     */
+/*   Updated: 2020/01/23 11:33:37 by aplat       ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -77,7 +77,7 @@ int		parse_light(char *line, t_data *data)
 
 int		parse_rt_line(char *line, t_data *data)
 {
-	printf("%s\n", line);
+	ft_printf("%s\n", line);
 	if (!ft_strncmp(line, "name", 4))
 		return (parse_scene_name(line, data));
 	else if (!ft_strncmp(line, "camera", 6))
@@ -121,10 +121,8 @@ int		parse_rt_conf(char *file_name, t_data *data)
 		}
 		ft_strdel(&line);
 	}
-	if (ret == -1)
-	{
-		ft_printf("%s: invalid rt_conf file\n", file_name);
+	if ((ret == -1 || !line) && (ft_printf("%s: %s rt_conf file\n",
+		file_name, ret == -1 ? "invalid" : "empty")))
 		return (0);
-	}
 	return (1);
 }

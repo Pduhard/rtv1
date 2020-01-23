@@ -6,7 +6,7 @@
 #    By: aplat <aplat@student.le-101.fr>            +:+   +:    +:    +:+      #
 #                                                  #+#   #+    #+    #+#       #
 #    Created: 2018/11/13 00:29:26 by pduhard-     #+#   ##    ##    #+#        #
-#    Updated: 2020/01/22 10:31:14 by aplat       ###    #+. /#+    ###.fr      #
+#    Updated: 2020/01/23 10:57:59 by aplat       ###    #+. /#+    ###.fr      #
 #                                                          /                   #
 #                                                         /                    #
 # **************************************************************************** #
@@ -16,7 +16,7 @@
 NAME		=	rtv1
 
 CC			=	gcc
-FLAGS		=	-Wall -Werror -Wextra -O3
+FLAGS		=	-Wall -Werror -Wextra -O3 -march=native -flto -ffast-math
 FRAMEWORK	=	-framework OpenGL -framework AppKit
 LIB_FLAGS	=	-L$(LIB_PATH) $(LIB_FLAG)
 MLX_FLAGS	=	-L$(MLX_PATH) $(MLX_FLAG)
@@ -47,6 +47,7 @@ SRC			=	main.c			\
 				utils.c			\
 				utils2.c		\
 				error_syntax.c	\
+				free.c			\
 
 BIN			=	$(SRC:.c=.o)
 
@@ -72,14 +73,15 @@ N			=	\33[0m
 
 #__________RULES__________#
 
-all: $(NAME)
-
-	@make -C $(LIB_PATH)
+all: make_libft $(NAME)
 
 $(NAME): $(LIBS) $(MLXS) $(BINS)
 
 	@$(CC) -I $(INC_PATH) $(FLAGS) -lpthread $(LIB_FLAGS) $(MLX_FLAGS) $(FRAMEWORK) $^ -o $@
 	@echo "\n\n$(B)[EXECUTABLE \"$(NAME)\" READY]\n"
+
+make_libft:
+	@make -C $(LIB_PATH)
 
 $(LIBS):
 
