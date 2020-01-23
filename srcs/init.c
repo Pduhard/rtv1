@@ -6,7 +6,7 @@
 /*   By: aplat <aplat@student.le-101.fr>            +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/12/21 22:19:28 by pduhard-     #+#   ##    ##    #+#       */
-/*   Updated: 2020/01/23 11:11:03 by aplat       ###    #+. /#+    ###.fr     */
+/*   Updated: 2020/01/23 11:50:23 by aplat       ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -50,12 +50,20 @@ t_data			*init_data(char *file_name)
 {
 	t_data		*data;
 
-	(void)file_name;
 	if (!(data = (t_data *)malloc(sizeof(t_data))))
 		return (NULL);
 	ft_bzero(data, sizeof(t_data));
 	if (!(parse_rt_conf(file_name, data)))
+	{
+		free_all(data);
 		return (NULL);
+	}
+	if (!(data->camera) || !(data->objs) || !(data->lights))
+	{
+		free_all(data);
+		ft_printf("%s : Incomplete rt_conf file\n", file_name);
+		return (NULL);
+	}
 	if (!(data->mlx = init_mlx(data->scene_name)))
 	{
 		free_all(data);

@@ -6,7 +6,7 @@
 /*   By: aplat <aplat@student.le-101.fr>            +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/12/23 01:19:51 by pduhard-     #+#   ##    ##    #+#       */
-/*   Updated: 2020/01/23 11:33:37 by aplat       ###    #+. /#+    ###.fr     */
+/*   Updated: 2020/01/23 11:44:42 by aplat       ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -121,8 +121,10 @@ int		parse_rt_conf(char *file_name, t_data *data)
 		}
 		ft_strdel(&line);
 	}
-	if ((ret == -1 || !line) && (ft_printf("%s: %s rt_conf file\n",
-		file_name, ret == -1 ? "invalid" : "empty")))
+	if (ret == -1)
+	{
+		ft_printf("%s: invalid rt_conf file\n", file_name);
 		return (0);
+	}
 	return (1);
 }
